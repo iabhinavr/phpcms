@@ -37,7 +37,7 @@ class Photo {
 		$this->upload_msg		= "";
 	}
 	
-	public function new_photo() { var_dump($this->file_name);
+	public function new_photo() {
 		
 		$this->uploaded_date 	= date("Y-m-d");
 		$date_array 	= array();

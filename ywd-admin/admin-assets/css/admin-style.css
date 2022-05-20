@@ -212,14 +212,14 @@ body {
 }
 .admin-header {
 	position: relative;
-	background: #e27500;
-	box-shadow: 0 2px 6px rgba(0,0,0,.15);
+	background: #f5f5f5;
+	box-shadow: 0 1px 6px rgba(0,0,0,.05);
 	z-index: 10;
 }
 
 .admin-header h1 {
 	font-size: 1.4em;
-	color: #f1f1f1;
+	color: #252525;
 	float: left;
 	margin: 15px 0;
 	padding: 0 10px;
@@ -233,12 +233,12 @@ body {
 
 .admin-header-nav li {
 	float: left;
-	color: #f1f1f1;
+	color: #252525;
 }
 
 .admin-header-nav li a {
 	text-decoration: none;
-	color: #f1f1f1;
+	color: #252525;
 	padding: 20px 10px;
 }
 
@@ -249,7 +249,7 @@ body {
 	left: 0;
 	width: 200px;
 	z-index: 0;
-	background: #e27500;
+	background: #f1f1f1;
 }
 
 .admin-nav {
@@ -260,97 +260,76 @@ body {
 
 .admin-menu {
 	list-style: none;
-	background: #cf6c03;
+	background: #f5f5f5;
 	margin: 0;
 	padding: 0;
 }
 
 .admin-menu li a {
 	display: block;
-	color: #f1f1f1;
+	color: #252525;
 	text-decoration: none;
 	padding: 15px 15px;
 }
 .admin-menu li a:hover {
-	background: #e27500;
+	background: #f5f5f5;
+}
+.dashboard-menu a::before,
+.photos-menu a::before,
+.articles-menu a::before,
+.books-menu a::before,
+.books-menu a::before,
+.news-menu a::before,
+.audios-menu a::before,
+.videos-menu a::before,
+.events-menu a::before,
+.seo-menu a::before,
+.account-menu a::before,
+.loggedin-menu::before,
+.vsite-menu a::before,
+.logout-menu a::before {
+	color: #252525;
+	font-family: 'FontAwesome';
+	padding-right: 10px;
 }
 .dashboard-menu a::before {
 	content: "\f0e4";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .photos-menu a::before {
 	content: "\f1c5";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .articles-menu a::before {
 	content: "\f040";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .books-menu a::before {
 	content: "\f02d";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .news-menu a::before {
 	content: "\f1ea";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .audios-menu a::before {
 	content: "\f001";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .videos-menu a::before {
 	content: "\f03d";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .events-menu a::before {
 	content: "\f073";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .seo-menu a::before {
 	content: "\f0ad";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .account-menu a::before {
 	content: "\f007";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .loggedin-menu::before {
 	content: "\f007";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .vsite-menu a::before {
 	content: "\f0ac";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .logout-menu a::before {
 	content: "\f061";
-	color: #f1f1f1;
-	font-family: 'FontAwesome';
-	padding-right: 10px;
 }
 .admin-home {
 	text-align: center;
