@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .edit-article-form input {
+        @apply block px-3 py-2 border w-full;
+    }
+
+    h2 {
+        @apply text-2xl;
+    }
+}
+
