@@ -10,6 +10,41 @@ $db_con = $database->db_connect();
 
 $image_obj = new Image($db_con);
 
+if( isset( $_FILES['editor-image']) ) {
+    
+    $data['file_name'] = $_FILES['editor-image']['name'];
+    $data['tmp_name'] = $_FILES['editor-image']['tmp_name'];
+    $data['type'] = $_FILES['editor-image']['type'];
+    $data['size'] = $_FILES['editor-image']['size'];
+    $data['error'] = $_FILES['editor-image']['error'];
+
+    $add_image = $image_obj->add_image($data);
+
+    $result = [
+        "success" => 0
+    ];
+
+    if($add_image['status']) {
+
+        if($add_image["last_insert"]["status"]) {
+            $last_insert = $add_image["last_insert"]["result"];
+
+            $url = '../uploads/fullsize/' . $last_insert['folder_path'] . '/' . $last_insert['file_name'];
+    
+            $result = [
+                "success" => 1,
+                "file" => [
+                    "url" => $url,
+                ],
+            ];
+        }
+
+    }
+
+    echo json_encode($result);
+    exit();
+}
+
 if( isset( $_POST['image-upload']) ) {
     
     $data['file_name'] = $_FILES['image']['name'];
@@ -24,7 +59,37 @@ if( isset( $_POST['image-upload']) ) {
     // exit();
 }
 
-$images = $image_obj->get_images();
+if( isset( $_POST['fetch-images'])) {
+
+    $args = [
+        "limit" => (int)$_POST['limit'],
+        "offset" => (int)$_POST['offset']
+    ];
+
+    
+    $images = $image_obj->get_images($args);
+
+    echo json_encode($images);
+    exit();
+}
+
+$image_count = $image_obj->get_image_count();
+
+$args = [
+    'per_page' => 10,
+    'page_no' => 1,
+];
+
+if(isset($_GET['page_no'])) {
+    $args['page_no'] = (int)$_GET['page_no'];
+}
+
+$total_pages = 
+    ($image_count % $args['per_page'] === 0) ? 
+    floor($image_count / $args['per_page']) : 
+    floor($image_count / $args['per_page']) + 1;
+
+$images = $image_obj->get_images($args);
 
 get_template('header');
 get_template('topbar');
@@ -51,6 +116,8 @@ get_template('topbar');
         <?php endif; ?>
 
         <div class="library-area">
+
+        <p>Showing page <?= $args['page_no'] ?> of <?= $total_pages ?> pages</p>
             
             <ul class="image-grid grid grid-cols-4 gap-2 py-4">
                 <?php if ($images['status'] === true) : ?>

@@ -10,5 +10,21 @@
     h2 {
         @apply text-2xl;
     }
+
+    #modal-image-list li {
+        @apply h-32 w-full;
+    }
+
+    #modal-image-list li a {
+        @apply h-full w-full relative rounded-md border-4 border-transparent hover:border-slate-100 transition-all block overflow-hidden;
+    }
+
+    #modal-image-list li.selected a {
+        @apply h-full w-full relative rounded-md border-4 border-transparent hover:border-emerald-400 border-emerald-400 transition-all block overflow-hidden;
+    }
+
+    #modal-image-list li a img {
+        @apply h-full w-full object-cover object-center;
+    }
 }
 

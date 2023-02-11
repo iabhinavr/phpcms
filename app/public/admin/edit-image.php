@@ -71,7 +71,11 @@ get_template('topbar');
 
     <div class="relative px-2 editor-center max-h-[90vh] overflow-y-scroll">
 
-        <h1 class="text-2xl py-3"><?= $current_image['file_name'] ?></h1>
+        <h1 class="text-2xl py-3">
+            <?php
+            echo $current_image['title'] ? $current_image['title'] : $current_image['file_name'];
+            ?>
+        </h1>
 
         <img src="../uploads/fullsize/<?= $current_image['folder_path'] ?>/<?= $current_image['file_name'] ?>" alt="">
     </div>

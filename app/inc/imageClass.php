@@ -79,7 +79,7 @@ class Image {
             return $insert;
         }
         else {
-            return ["status" => true, "message" => "Image added successfully"];
+            return ["status" => true, "message" => "Image added successfully", "stmt" => $insert["stmt"], "last_insert" => $this->get_image($insert["insert_id"])];
         }
 
     }
@@ -118,7 +118,7 @@ class Image {
             $insert = $stmt->execute();
 
             if($insert) {
-                return ["status" => true, "message" => "Image inserted successfully"];
+                return ["status" => true, "message" => "Image successfully inserted", "stmt" => $stmt, "insert_id" => $this->con->lastInsertId()];
             }
 
             return ["status" => false, "message" => "Error inserting image"];
@@ -241,15 +241,18 @@ class Image {
 
         if(empty($args)) {
            $args = [
-            "limit" => 12,
-            "offset" => 0
+            "per_page" => 25,
+            "page_no" => 1,
            ];
         }
 
+        $limit = $args['per_page'];
+        $offset = ($args['page_no'] - 1) * $limit;
+
         try {
             $stmt = $this->con->prepare("SELECT * FROM images ORDER BY id DESC LIMIT :limit OFFSET :offset");
-            $stmt->bindParam(":limit", $args['limit'], PDO::PARAM_INT);
-            $stmt->bindParam(":offset", $args['offset'], PDO::PARAM_INT);
+            $stmt->bindParam(":limit", $limit, PDO::PARAM_INT);
+            $stmt->bindParam(":offset", $offset, PDO::PARAM_INT);
             $stmt->execute();
 
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -264,6 +267,11 @@ class Image {
         catch(PDOException $e) {
             return ["status" => false, "result" => $e->getMessage()];
         }
+    }
+
+    public function get_image_count() {
+        $count = $this->con->query("SELECT count(*) from images")->fetchColumn();
+        return $count;
     }
 
     public function update_image($data) {
