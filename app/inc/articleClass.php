@@ -37,14 +37,18 @@ class Article {
 
         if(empty($args)) {
             $args = [
-                "limit" => 10,
-                "offset" => 0
+             "per_page" => 25,
+             "page_no" => 1,
             ];
-        }
+         }
+ 
+         $limit = $args['per_page'];
+         $offset = ($args['page_no'] - 1) * $limit;
+
         try {
-            $stmt = $this->con->prepare("SELECT * FROM articles LIMIT :limit OFFSET :offset");
-            $stmt->bindParam(":limit", $args["limit"], PDO::PARAM_INT);
-            $stmt->bindParam(":offset", $args["offset"], PDO::PARAM_INT);
+            $stmt = $this->con->prepare("SELECT * FROM articles ORDER BY id DESC LIMIT :limit OFFSET :offset");
+            $stmt->bindParam(":limit", $limit, PDO::PARAM_INT);
+            $stmt->bindParam(":offset", $offset, PDO::PARAM_INT);
             $stmt->execute();
 
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,6 +58,11 @@ class Article {
         catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public function get_article_count() {
+        $count = $this->con->query("SELECT count(*) FROM articles")->fetchColumn();
+        return $count;
     }
 
     public function update_article($data) {
@@ -84,8 +93,30 @@ class Article {
         }
     }
 
-    public function add_article() {
+    public function add_article($data) {
+        $slug = $this->process_slug($data);
 
+        try {
+            $stmt = $this->con->prepare("INSERT INTO articles (title, content, published, modified, image, slug, excerpt) values (:title, :content, :published, :modified, :image, :slug, :excerpt)");
+            $stmt->bindParam(':title', $data['title'], PDO::PARAM_STR);
+            $stmt->bindParam(':content', $data['content']);
+            $stmt->bindParam(':published', $data['published'], PDO::PARAM_STR);
+            $stmt->bindParam(':modified', $data['modified'], PDO::PARAM_STR);
+            $stmt->bindParam(':image', $data['image']);
+            $stmt->bindParam(':slug', $slug);
+            $stmt->bindParam(':excerpt', $data['excerpt']);
+
+            $insert = $stmt->execute();
+
+            if($insert) {
+                return ["status" => true, "result" => "Article successfully added", "stmt" => $stmt, "insert_id" => $this->con->lastInsertId()];
+            }
+
+            return ["status" => false, "result" => "Error adding article"];
+        }
+        catch(PDOException $e) {
+            return ["status" => false, "result" => $e->getMessage()];
+        }
     }
 
     public function delete_article() {

@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if(empty($_SESSION['username'])) {
+    header('Location:login.php');
+    die('Redirecting to the login page...');
+}
+
 include('inc/functions.php');
 
 require_once '../../inc/databaseClass.php';
@@ -36,13 +43,15 @@ if(isset($_GET['id'])) {
 
 if(isset($_POST['article-edit-submit'])) {
 
+    $datetime = date('Y-m-d H:i:s');
+
     $data = [
         'id' => (int)$_POST['id'],
         'title' => $_POST['title'],
         'published' => $_POST['published'],
-        'modified' => $_POST['modified'],
+        'modified' => $datetime,
         'content' => base64_decode($_POST['content']?: ''),
-        'image' => $_POST['image'],
+        'image' => empty($_POST['image']) ? NULL : (int)$_POST['image'],
         'slug' => $_POST['slug'],
         'excerpt' => $_POST['excerpt'],
     ];

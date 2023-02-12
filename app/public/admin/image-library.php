@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if(empty($_SESSION['username'])) {
+    header('Location:login.php');
+    die('Redirecting to the login page...');
+}
+
 include('inc/functions.php');
 
 require_once '../../inc/databaseClass.php';
@@ -62,8 +69,8 @@ if( isset( $_POST['image-upload']) ) {
 if( isset( $_POST['fetch-images'])) {
 
     $args = [
-        "limit" => (int)$_POST['limit'],
-        "offset" => (int)$_POST['offset']
+        "per_page" => (int)$_POST['per_page'],
+        "page_no" => (int)$_POST['page_no']
     ];
 
     
@@ -76,7 +83,7 @@ if( isset( $_POST['fetch-images'])) {
 $image_count = $image_obj->get_image_count();
 
 $args = [
-    'per_page' => 5,
+    'per_page' => 12,
     'page_no' => 1,
 ];
 
@@ -97,7 +104,7 @@ get_template('topbar');
 
 ?>
 
-<div class="grid grid-cols-[200px_1fr_200px] top-12 relative">
+<div class="grid grid-cols-[200px_1fr] top-12 relative">
 
     <?php get_template('sidebar'); ?>
     <div class="px-4 py-3">
@@ -130,7 +137,7 @@ get_template('topbar');
                 </ul>
             </div>
             
-            <ul class="image-grid grid grid-cols-4 gap-2 py-4">
+            <ul class="image-grid grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-2 py-4">
                 <?php if ($images['status'] === true) : ?>
                     <?php foreach($images['result'] as $image) : ?>
                         <?php

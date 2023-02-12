@@ -13,7 +13,18 @@ import ImageTool from '@editorjs/image';
         let editorContent = editorElem.innerHTML;
         editorElem.innerHTML = '';
 
-        return JSON5.parse(atob(editorContent));
+        let decodedEditorContent = '';
+        let parsedEditorContent = {};
+
+        try {
+            decodedEditorContent = atob(editorContent);
+            parsedEditorContent = JSON5.parse(decodedEditorContent);
+        }
+        catch(e) {
+            return {};
+        }
+
+        return parsedEditorContent;
     }
     
     if(editorElem) {
@@ -45,6 +56,7 @@ import ImageTool from '@editorjs/image';
             },
 
             data: editorContent,
+            autofocus: true,
         });
     }
     
@@ -266,8 +278,8 @@ import ImageTool from '@editorjs/image';
     
         const fetchArgs = new FormData();
         fetchArgs.append('fetch-images', "submitted");
-        fetchArgs.append('limit', 12);
-        fetchArgs.append('offset', 0);
+        fetchArgs.append('per_page', 12);
+        fetchArgs.append('page_no', 1);
     
         const fetchImages = await fetch('/admin/image-library.php', {
             method: 'POST',
