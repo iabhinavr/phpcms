@@ -110,8 +110,22 @@ get_template('topbar');
         <img width="24" height="24" src="assets/images/close-icon.svg" alt="">
     </button>
 
-    <h2 class="py-2 mb-3 border-b border-slate-600 text-slate-300">Select an Image from the Library</h2>
-    <ul class="grid grid-cols-6 gap-2" id="modal-image-list"></ul>
+    <div class="container mx-auto lg:max-w-4xl">
+        <div class="flex justify-between items-center">
+            <h2 class="py-2 mb-3 border-b border-slate-600 text-slate-300">Select an Image from the Library</h2>
+            <ul class="page-nav flex">
+                <li>
+                    <a id="image-library-prev" href="#" class="text-xs px-2 py-1 mr-1 block rounded-md bg-slate-400 pointer-events-none">Prev</a>
+                </li>
+                <li>
+                    <a id="image-library-next" href="#" class="text-xs px-2 py-1 block rounded-md bg-slate-400 pointer-events-none">Next</a>
+                </li>
+            </ul>
+        </div>
+        
+        <ul class="grid grid-cols-4 gap-2" id="modal-image-list"></ul>
+    </div>
+    
 
     <button id="set-selected-image" class="absolute right-10 top-2 px-3 py-1 bg-emerald-500 rounded-md text-sm" data-image-id="" data-thumbnail-src="" data-full-src="" data-action="">Set Selected Image</button>
 </div>

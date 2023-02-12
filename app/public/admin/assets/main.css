@@ -1148,6 +1148,16 @@ video {
   background-color: rgb(5 150 105 / var(--tw-bg-opacity));
 }
 
+.bg-slate-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
+}
+
+.bg-slate-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(100 116 139 / var(--tw-bg-opacity));
+}
+
 .bg-\[url\(\'\/admin\/assets\/images\/image-icon\.svg\'\)\] {
   background-image: url('/admin/assets/images/image-icon.svg');
 }
@@ -1620,6 +1630,10 @@ h2 {
 }
 
 @media (min-width: 1024px) {
+  .lg\:max-w-4xl {
+    max-width: 56rem;
+  }
+
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

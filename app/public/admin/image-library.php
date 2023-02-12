@@ -80,6 +80,13 @@ if( isset( $_POST['fetch-images'])) {
     exit();
 }
 
+if(isset($_POST['get_image_count'])) {
+    $image_count = $image_obj->get_image_count();
+
+    echo json_encode(["image_count" => $image_count]);
+    exit();
+}
+
 $image_count = $image_obj->get_image_count();
 
 $args = [

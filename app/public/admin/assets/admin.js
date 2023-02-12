@@ -205,6 +205,9 @@ import ImageTool from '@editorjs/image';
     const imagesUl = document.getElementById('modal-image-list');
     const setSelectedImageButton = document.getElementById('set-selected-image');
 
+    const prevElem = document.getElementById('image-library-prev');
+    const nextElem = document.getElementById('image-library-next');
+
     const imageOnClick = async function (event) {
 
         event.currentTarget.classList.toggle('selected');
@@ -278,7 +281,7 @@ import ImageTool from '@editorjs/image';
     
         const fetchArgs = new FormData();
         fetchArgs.append('fetch-images', "submitted");
-        fetchArgs.append('per_page', 12);
+        fetchArgs.append('per_page', 6);
         fetchArgs.append('page_no', 1);
     
         const fetchImages = await fetch('/admin/image-library.php', {
@@ -293,6 +296,7 @@ import ImageTool from '@editorjs/image';
             console.log(images);
     
             await insertImages(images);
+            calculatePagination(6,1);
             
         }
     
@@ -300,6 +304,109 @@ import ImageTool from '@editorjs/image';
     
     if(sidebarImageButton) {
         sidebarImageButton.addEventListener('click', sidebarImageButtonOnClick);
+    }
+
+    const calculatePagination = async function (per_page, page_no) {
+
+        per_page = parseInt(per_page);
+        page_no = parseInt(page_no);
+
+        console.log('page_no' + page_no);
+
+        const args = new FormData();
+
+        args.append('get_image_count', 'submitted');
+        args.append('per_page', per_page);
+        args.append('page_no', page_no);
+
+        const getTotal = await fetch('/admin/image-library.php', {
+            method: 'POST',
+            body: args,
+        });
+
+        const resJson = await getTotal.json();
+        let count = resJson.image_count;
+
+        let totalPages = 
+        (count % per_page) === 0 ? 
+        Math.floor(count / per_page) : 
+        Math.floor(count / per_page) + 1;
+
+        console.log(totalPages);
+
+        let prev = false;
+        let next = false;
+
+        if(page_no > 1) {
+            prev = true;
+        }
+
+        if(page_no < totalPages) {
+            next = true;
+        }    
+
+        if(prev) {
+            prevElem.classList.remove('bg-slate-400');
+            prevElem.classList.add('bg-slate-200');
+            prevElem.classList.remove('pointer-events-none');
+            prevElem.setAttribute('data-page-no', page_no - 1);
+        }
+        else {
+            prevElem.classList.add('bg-slate-400');
+            prevElem.classList.remove('bg-slate-200');
+            prevElem.classList.add('pointer-events-none');
+            prevElem.setAttribute('data-page-no', '');
+        }
+
+        if(next) {
+            nextElem.classList.remove('bg-slate-400');
+            nextElem.classList.add('bg-slate-200');
+            nextElem.classList.remove('pointer-events-none');
+            nextElem.setAttribute('data-page-no', page_no + 1);
+        }
+        else {
+            nextElem.classList.add('bg-slate-400');
+            nextElem.classList.remove('bg-slate-200');
+            nextElem.classList.add('pointer-events-none');
+            nextElem.setAttribute('data-page-no', '');
+        }
+
+    }
+
+    const paginate = async function (event) {
+        let page_no = event.currentTarget.getAttribute('data-page-no');
+        console.log(page_no);
+
+        imagesUl.innerHTML = '';
+    
+        const fetchArgs = new FormData();
+        fetchArgs.append('fetch-images', "submitted");
+        fetchArgs.append('per_page', 6);
+        fetchArgs.append('page_no', page_no);
+    
+        const fetchImages = await fetch('/admin/image-library.php', {
+            method: 'POST',
+            body: fetchArgs,
+        });
+    
+        const fetchJson = await fetchImages.json();
+    
+        if(fetchJson.status === true) {
+            let images = fetchJson.result;
+            console.log(images);
+    
+            await insertImages(images);
+            calculatePagination(6,page_no);
+            
+        }
+    }
+
+    if(prevElem) {
+        prevElem.addEventListener('click', paginate);
+    }
+
+    if(nextElem) {
+        nextElem.addEventListener('click', paginate);
     }
 
     const setSelectedImageButtonOnClick = async function (event) {
