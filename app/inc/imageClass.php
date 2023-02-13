@@ -11,6 +11,8 @@ class Image {
     public $tmp_name;
     public $size;
     public $error;
+
+    public $author;
     
     public $upload_date;
     public $upload_year;
@@ -37,6 +39,8 @@ class Image {
         $this->type =  $data['type'];
         $this->size = $data['size'];
         $this->error = $data['error'];
+
+        $this->author = $data['author'];
 
         $validation = false;
         $regenerated_image = false;
@@ -109,11 +113,12 @@ class Image {
 
     private function insert_image() {
         try {
-            $stmt = $this->con->prepare("INSERT INTO images (file_name, type, upload_date, folder_path) values (:file_name, :type, :upload_date, :folder_path)");
+            $stmt = $this->con->prepare("INSERT INTO images (file_name, type, upload_date, folder_path, author) values (:file_name, :type, :upload_date, :folder_path, :author)");
             $stmt->bindParam(':file_name', $this->file_name, PDO::PARAM_STR);
             $stmt->bindParam(':type', $this->type, PDO::PARAM_STR);
             $stmt->bindParam(':upload_date', $this->upload_date, PDO::PARAM_STR);
             $stmt->bindParam(':folder_path', $this->folder_path, PDO::PARAM_STR);
+            $stmt->bindParam(':author', $this->author, PDO::PARAM_STR);
 
             $insert = $stmt->execute();
 

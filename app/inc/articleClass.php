@@ -97,7 +97,7 @@ class Article {
         $slug = $this->process_slug($data);
 
         try {
-            $stmt = $this->con->prepare("INSERT INTO articles (title, content, published, modified, image, slug, excerpt) values (:title, :content, :published, :modified, :image, :slug, :excerpt)");
+            $stmt = $this->con->prepare("INSERT INTO articles (title, content, published, modified, image, slug, excerpt, author) values (:title, :content, :published, :modified, :image, :slug, :excerpt, :author)");
             $stmt->bindParam(':title', $data['title'], PDO::PARAM_STR);
             $stmt->bindParam(':content', $data['content']);
             $stmt->bindParam(':published', $data['published'], PDO::PARAM_STR);
@@ -105,6 +105,7 @@ class Article {
             $stmt->bindParam(':image', $data['image']);
             $stmt->bindParam(':slug', $slug);
             $stmt->bindParam(':excerpt', $data['excerpt']);
+            $stmt->bindParam(':author', $data['author']);
 
             $insert = $stmt->execute();
 
@@ -119,14 +120,30 @@ class Article {
         }
     }
 
-    public function delete_article() {
+    public function delete_article($id) {
+        try {
+            $stmt = $this->con->prepare("DELETE FROM articles WHERE id = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $result = $stmt->execute();
 
+            if($result) {
+                return ["status" => true, "result" => "Article successfully deleted"];
+            }
+            return ["status" => false, "result" => "Error deleting article"];
+
+        }
+        catch(PDOException $e) {
+            return ["status" => false, "result" => $e->getMessage()];
+        }
     }
 
     private function process_slug($data) {
 
         $unique_id = uniqid();
         $slug = $data['slug'];
+
+        // remove everything except alphanumeric and hyphen
+        $slug = preg_replace('/[^A-Za-z0-9-]/', '', $slug);
 
         if(!empty($slug)) {
             try {

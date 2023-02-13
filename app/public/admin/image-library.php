@@ -11,13 +11,23 @@ include('inc/functions.php');
 
 require_once '../../inc/databaseClass.php';
 require_once '../../inc/imageClass.php';
+require_once '../../inc/accessClass.php';
 
 $database = new Database();
 $db_con = $database->db_connect();
 
+$access_obj = new Access($db_con);
+
 $image_obj = new Image($db_con);
 
 if( isset( $_FILES['editor-image']) ) {
+
+    $authorization = $access_obj->is_authorized('image', 'create', NULL);
+
+    if(!$authorization) {
+        echo json_encode(["msg" => "No access"]);
+        exit();
+    }
     
     $data['file_name'] = $_FILES['editor-image']['name'];
     $data['tmp_name'] = $_FILES['editor-image']['tmp_name'];
@@ -53,12 +63,20 @@ if( isset( $_FILES['editor-image']) ) {
 }
 
 if( isset( $_POST['image-upload']) ) {
+
+    $authorization = $access_obj->is_authorized('image', 'create', NULL);
+
+    if(!$authorization) {
+        echo json_encode(["msg" => "No access"]);
+        exit();
+    }
     
     $data['file_name'] = $_FILES['image']['name'];
     $data['tmp_name'] = $_FILES['image']['tmp_name'];
     $data['type'] = $_FILES['image']['type'];
     $data['size'] = $_FILES['image']['size'];
     $data['error'] = $_FILES['image']['error'];
+    $data['author'] = $access_obj->get_current_user()['username'];
 
     $add_image = $image_obj->add_image($data);
 
@@ -109,12 +127,23 @@ $images = $image_obj->get_images($args);
 get_template('header');
 get_template('topbar');
 
+// Access Control
+
+$authorization = $access_obj->is_authorized('image', 'read', NULL);
+
 ?>
 
 <div class="grid grid-cols-[200px_1fr] top-12 relative">
 
     <?php get_template('sidebar'); ?>
     <div class="px-4 py-3">
+
+        <?php if(empty($authorization)) : ?>
+            <p class="p-2 bg-red-500/75 text-white rounded-sm">You don't have enough permissions to access this resource</p>
+            <?php get_template('footer'); ?>
+            <?php exit(); ?>
+        <?php endif; ?>
+
         <h1 class="text-2xl pb-2 border-b mb-2">Image Library</h1>
 
         <h2 class="text-xl">Upload Image</h2>

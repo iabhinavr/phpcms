@@ -11,9 +11,12 @@ include('inc/functions.php');
 
 require_once '../../inc/databaseClass.php';
 require_once '../../inc/userClass.php';
+require_once '../../inc/accessClass.php';
 
 $database = new Database();
 $db_con = $database->db_connect();
+
+$access_obj = new Access($db_con);
 
 $user_obj = new User($db_con);
 
@@ -39,12 +42,30 @@ $users = $user_obj->get_users($args);
 get_template('header');
 get_template('topbar');
 
+// Access Control
+
+$access['resource_type'] = 'image';
+$access['action'] = 'read';
+$access['resource_identifier'] = NULL;
+
+$authorization = $access_obj->is_authorized(
+    $access['resource_type'], 
+    $access['action'], 
+    $access['resource_identifier']);
+
 ?>
 
 <div class="grid grid-cols-[200px_1fr] top-12 relative">
 
     <?php get_template('sidebar'); ?>
     <div class="px-4 py-3">
+
+        <?php if(empty($authorization)) : ?>
+            <p class="p-2 bg-red-500/75 text-white rounded-sm">You don't have enough permissions to access this resource</p>
+            <?php get_template('footer'); ?>
+            <?php exit(); ?>
+        <?php endif; ?>
+        
         <h1 class="text-2xl pb-2 border-b mb-2">Users</h1>
 
 

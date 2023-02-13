@@ -11,13 +11,22 @@ include('inc/functions.php');
 
 require_once '../../inc/databaseClass.php';
 require_once '../../inc/imageClass.php';
+require_once '../../inc/accessClass.php';
 
 $database = new Database();
 $db_con = $database->db_connect();
 
+$access_obj = new Access($db_con);
+
 $image_obj = new Image($db_con);
 
 if(isset($_POST['image-save'])) {
+
+    $authorization = $access_obj->is_authorized('image', 'update', (int)$_POST['id']);
+
+    if(!$authorization) {
+        echo json_encode(["msg" => "No access"]);
+    }
 
     $data = [
         'id' => (int)$_POST['id'],
@@ -32,6 +41,12 @@ if(isset($_POST['image-save'])) {
 }
 
 if(isset($_POST['image-delete'])) {
+
+    $authorization = $access_obj->is_authorized('image', 'delete', (int)$_POST['id']);
+
+    if(!$authorization) {
+        echo json_encode(["msg" => "No access"]);
+    }
 
     $id = (int)$_POST['id'];
 
@@ -70,13 +85,23 @@ else {
 get_template('header');
 get_template('topbar');
 
+// Access Control
+
+$authorization = $access_obj->is_authorized('image', 'update',(int)$_GET['id']);
+
 ?>
 
 <div class="grid grid-cols-[200px_1fr_200px] top-12 relative">
 
     <?php get_template('sidebar'); ?>
 
-    <div class="relative px-2 editor-center max-h-[90vh] overflow-y-scroll">
+    <div class="relative px-2 py-4 editor-center max-h-[90vh] overflow-y-scroll">
+
+        <?php if(empty($authorization)) : ?>
+            <p class="p-2 bg-red-500/75 text-white rounded-sm">You don't have enough permissions to access this resource</p>
+            <?php get_template('footer'); ?>
+            <?php exit(); ?>
+        <?php endif; ?>
 
         <h1 class="text-2xl py-3">
             <?php

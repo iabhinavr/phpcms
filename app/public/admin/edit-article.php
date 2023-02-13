@@ -12,9 +12,12 @@ include('inc/functions.php');
 require_once '../../inc/databaseClass.php';
 require_once '../../inc/articleClass.php';
 require_once '../../inc/imageClass.php';
+require_once '../../inc/accessClass.php';
 
 $database = new Database();
 $db_con = $database->db_connect();
+
+$access_obj = new Access($db_con);
 
 $article_obj = new Article($db_con);
 $image_obj = new Image($db_con);
@@ -43,6 +46,12 @@ if(isset($_GET['id'])) {
 
 if(isset($_POST['article-edit-submit'])) {
 
+    $authorization = $access_obj->is_authorized('article', 'update', (int)$_POST['id']);
+
+    if(!$authorization) {
+        echo json_encode(["msg" => "No access"]);
+    }
+
     $datetime = date('Y-m-d H:i:s');
 
     $data = [
@@ -67,11 +76,25 @@ if(isset($_POST['article-edit-submit'])) {
 get_template('header');
 get_template('topbar');
 
+// Access Control
+
+$authorization = $access_obj->is_authorized('article', 'update', (int)$_GET['id']);
+
 ?>
 
 <div class="grid grid-cols-[200px_1fr_250px] top-12 relative">
 
     <?php get_template('sidebar'); ?>
+
+    <?php if(empty($authorization)) : ?>
+        <div class="px-2 py-4">
+            <p class="p-2 bg-red-500/75 text-white rounded-sm">You don't have enough permissions to access this resource</p>
+        </div>
+        
+    </div>
+        <?php get_template('footer'); ?>
+        <?php exit(); ?>
+    <?php endif; ?>
 
     <div class="relative px-2 editor-center max-h-[90vh] overflow-y-scroll">
 
@@ -81,7 +104,7 @@ get_template('topbar');
             <input type="hidden" name="modified-date" value="<?= $article['modified'] ?>">
             <input type="hidden" name="article-image" value="<?= $article['image'] ?>">
             <input type="hidden" name="article-id" value="<?= $article['id'] ?>">
-            <div id="editorjs" class="px-20 shadow-md shadow-slate-200/50 border border-slate-100 rounded-lg my-2 py-3"><?php echo base64_encode($article['content']) ?></div>
+            <div id="editorjs" class="px-20 shadow-md shadow-slate-200/50 border border-slate-100 rounded-lg my-2 py-3"><?php echo !empty($article['content']) ? base64_encode($article['content']) : base64_encode('{}') ?></div>
         </form>
 
     </div>

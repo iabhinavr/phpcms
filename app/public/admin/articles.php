@@ -11,9 +11,12 @@ include('inc/functions.php');
 
 require_once '../../inc/databaseClass.php';
 require_once '../../inc/articleClass.php';
+require_once '../../inc/accessClass.php';
 
 $database = new Database();
 $db_con = $database->db_connect();
+
+$access_obj = new Access($db_con);
 
 $article_obj = new Article($db_con);
 
@@ -28,6 +31,7 @@ if(isset($_POST['add-article'])) {
         'image' => NULL,
         'slug' => '',
         'excerpt' => '',
+        'author' => $access_obj->get_current_user()['username'],
     ];
 
     $add_article = $article_obj->add_article($data);
@@ -62,12 +66,23 @@ $articles = $article_obj->get_articles($args);
 get_template('header');
 get_template('topbar');
 
+// Access Control
+
+$authorization = $access_obj->is_authorized('article', 'read', NULL);
+
 ?>
 
 <div class="grid grid-cols-[200px_1fr] top-12 relative">
 
     <?php get_template('sidebar'); ?>
     <div class="px-4 py-3">
+
+        <?php if(empty($authorization)) : ?>
+            <p class="p-2 bg-red-500/75 text-white rounded-sm">You don't have enough permissions to access this resource</p>
+            <?php get_template('footer'); ?>
+            <?php exit(); ?>
+        <?php endif; ?>
+
         <h1 class="text-2xl pb-2 border-b mb-2">Articles</h1>
 
         <h2 class="text-xl mb-2">Add Article</h2>

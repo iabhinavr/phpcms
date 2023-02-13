@@ -11,15 +11,18 @@ include('inc/functions.php');
 
 require_once '../../inc/databaseClass.php';
 require_once '../../inc/userClass.php';
+require_once '../../inc/accessClass.php';
 
 $database = new Database();
 $db_con = $database->db_connect();
+
+$access_obj = new Access($db_con);
 
 $user_obj = new User($db_con);
 
 if(isset($_GET['id'])) {
     $id = (int)$_GET['id'];
-    $get_user = $user_obj->get_user($id);
+    $get_user = $user_obj->get_user_by_id($id);
 
     if($get_user["status"]) {
         $user = $get_user["result"];
@@ -31,6 +34,12 @@ if(isset($_GET['id'])) {
 }
 
 if(isset($_POST['user-edit-submit'])) {
+
+    $authorization = $access_obj->is_authorized('article', 'update', (int)$_POST['id']);
+
+    if(!$authorization) {
+        echo json_encode(["msg" => "No access"]);
+    }
 
     $data = [
         'id' => (int)$_POST['id'],
@@ -54,6 +63,11 @@ if(isset($_POST['user-edit-submit'])) {
 get_template('header');
 get_template('topbar');
 
+// Access Control
+
+$authorization = $access_obj->is_authorized(
+    ($user['role'] === 'admin') ? 'admin_user' : 'user', 'read', (int)$_GET['id']);
+
 ?>
 
 <div class="grid grid-cols-[200px_1fr] top-12 relative">
@@ -61,6 +75,12 @@ get_template('topbar');
     <?php get_template('sidebar'); ?>
 
     <div class="px-4 py-3">
+
+        <?php if(empty($authorization)) : ?>
+            <p class="p-2 bg-red-500/75 text-white rounded-sm">You don't have enough permissions to access this resource</p>
+            <?php get_template('footer'); ?>
+            <?php exit(); ?>
+        <?php endif; ?>
 
         <h1 class="text-2xl pb-2 border-b mb-2">Edit User</h1>
 
@@ -78,6 +98,10 @@ get_template('topbar');
             <div class="my-2 mb-3 grid grid-cols-[200px_1fr_100px]">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" value="<?= $user['email'] ?>" class="py-1 px-2 border border-slate-200 focus:ring-4 focus:ring-offset-2 focus:ring-blue-400/50 focus:outline-none rounded-md">
+            </div>
+
+            <div class="my-2 mb-3 grid grid-cols-[200px_1fr_100px]">
+                <span>Role</span> <span><?= $user['role'] ?> </span>
             </div>
             
             <input type="hidden" name="user-id" value="<?= $user['id'] ?>">
