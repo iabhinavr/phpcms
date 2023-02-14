@@ -1,3 +1,2 @@
 <?php 
-var_dump(function_exists('imagecopyresampled'));
-phpinfo();
+print_r(get_loaded_extensions());

@@ -8,9 +8,8 @@ require_once '../../inc/databaseClass.php';
 require_once '../../inc/userClass.php';
 
 $database = new Database();
-$db_con = $database->db_connect();
 
-$user_obj = new User($db_con);
+$user_obj = new User($database);
 
 if(isset($_POST['login'])) {
     if(!empty($_POST['username']) && !empty($_POST['password'])) {

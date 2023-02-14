@@ -1,6 +1,6 @@
 <?php
 
-class MainController {
+class MainHandler {
 
     public function render($template, $props) {
         ob_start();
