@@ -1,0 +1,6 @@
+{
+    "require": {
+        "nikic/fast-route": "^1.3",
+        "php-di/php-di": "^7.0"
+    }
+}

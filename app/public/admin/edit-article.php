@@ -29,6 +29,7 @@ if(isset($_GET['id'])) {
     if($get_article["status"]) {
         $article = $get_article["result"];
         $featured_image_id = $article["image"];
+        $featured_image = false;
 
         if($featured_image_id) {
             $get_featured_image = $image_obj->get_image($featured_image_id);
@@ -50,6 +51,7 @@ if(isset($_POST['article-edit-submit'])) {
 
     if(!$authorization) {
         echo json_encode(["msg" => "No access"]);
+        exit();
     }
 
     $datetime = date('Y-m-d H:i:s');
@@ -70,6 +72,22 @@ if(isset($_POST['article-edit-submit'])) {
     if(isset($update['status'])) {
         echo json_encode($update);
     }
+    exit();
+}
+
+if(isset($_POST['delete-article'])) {
+    $authorization = $access_obj->is_authorized('article', 'delete', (int)$_POST['id']);
+
+    if(!$authorization) {
+        echo json_encode(["msg" => "No access"]);
+        exit();
+    }
+
+    $id = (int)$_POST['id'];
+
+    $delete = $article_obj->delete_article($id);
+
+    echo json_encode($delete);
     exit();
 }
 
@@ -115,13 +133,13 @@ $authorization = $access_obj->is_authorized('article', 'update', (int)$_GET['id'
         </button>
         <h3 class=" border-b border-slate-300 py-2 mb-2">Featured Image</h3>
         <div class="h-32 bg-slate-300 border mb-2 border-slate-400 hover:bg-slate-100 bg-[url('/admin/assets/images/image-icon.svg')] bg-center bg-no-repeat cursor-pointer relative rounded-md overflow-hidden">
-            <span class="absolute inset-0 bg-center bg-no-repeat bg-cover" id="select-featured-image" style="background-image: <?php echo $featured_image_id ? 'url(../uploads/thumbnails/' . $featured_image['folder_path'] . '/' . $featured_image['file_name'] . ')' : 'none' ?>"></span>
+            <span class="absolute inset-0 bg-center bg-no-repeat bg-cover" id="select-featured-image" style="background-image: <?php echo !empty($featured_image) ? 'url(../uploads/thumbnails/' . $featured_image['folder_path'] . '/' . $featured_image['file_name'] . ')' : 'none' ?>"></span>
         </div>
         <h3 class=" border-b border-slate-400 py-2 mb-2">Slug</h3>
         <input type="text" name="article-slug" id="article-slug" class="bg-slate-100 border border-slate-300 rounded-md mb-2 p-2 w-full focus:outline-none focus:ring-1 focus:ring-blue-400" value="<?= $article['slug'] ?>">
         <h3 class=" border-b border-slate-400 py-2 mb-2">Excerpt</h3>
         <textarea name="article-excerpt" id="article-excerpt" class="bg-slate-100 border border-slate-300 rounded-md mb-2 p-2 w-full focus:outline-none focus:ring-1 focus:ring-blue-400 text-sm"><?= $article['excerpt'] ?></textarea>
-        <button class="px-2 py-2 w-full mb-2 border border-red-500 hover:bg-red-200 rounded-md text-slate-900">
+        <button class="px-2 py-2 w-full mb-2 border border-red-500 hover:bg-red-200 rounded-md text-slate-900" id="delete-article-button" data-article-id="<?= $article['id'] ?>">
             Delete Article
         </button>
     </div>

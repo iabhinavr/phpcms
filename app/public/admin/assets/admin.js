@@ -115,6 +115,55 @@ import ImageTool from '@editorjs/image';
     if(editArticleForm && saveArticleButton) {
         saveArticleButton.addEventListener('click', saveArticle);
     }
+
+    const deleteArticleButton = document.getElementById('delete-article-button');
+
+    const deleteArticleButtonOnClick = async function (event) {
+        
+        const confirm = await swal("Are you sure", {
+            dangerMode: true,
+            buttons: true,
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+        });
+
+        if(!confirm) {
+            return;
+        }
+
+        const articleId = event.target.getAttribute('data-article-id');
+        console.log('current target ' + event.currentTarget);
+
+        const articleData = new FormData();
+
+        articleData.append('id', parseInt(articleId));
+        articleData.append('delete-article', 'submitted');
+
+        const result = await fetch('/admin/edit-article.php', {
+            method: 'POST',
+            body: articleData,
+        });
+
+        const resJson = await result.json();
+
+        if(resJson.status) {
+            swal({
+                title: "Success",
+                text: resJson.result,
+                icon: "success",
+                timer: 1000,
+            });
+
+            setTimeout(function() {
+                window.location.href = '/admin/articles.php'
+            }, 1500);
+        }
+    }
+
+    if(deleteArticleButton) {
+        deleteArticleButton.addEventListener('click', deleteArticleButtonOnClick);
+    }
+    
     
     // Handle image delete action
     
@@ -139,7 +188,7 @@ import ImageTool from '@editorjs/image';
     
         let imageData = new FormData();
     
-        imageData.append('id', imageId);
+        imageData.append('id', parseInt(imageId));
         imageData.append('image-delete', "submitted");
     
         const result = await fetch('/admin/edit-image.php', {
