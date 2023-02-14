@@ -14,11 +14,10 @@ require_once '../../inc/articleClass.php';
 require_once '../../inc/accessClass.php';
 
 $database = new Database();
-$db_con = $database->db_connect();
 
-$access_obj = new Access($db_con);
+$access_obj = new Access($database);
 
-$article_obj = new Article($db_con);
+$article_obj = new Article($database);
 
 if(isset($_POST['add-article'])) {
     $datetime = date('Y-m-d H:i:s');

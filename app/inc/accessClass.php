@@ -1,13 +1,15 @@
 <?php
 
 class Access {
+    private $database;
     private $con;
     public $permissions;
 
     public $power;
 
-    public function __construct($db_con) {
-        $this->con = $db_con;
+    public function __construct(Database $database) {
+        $this->database = $database;
+        $this->con = $this->database->db_connect();
 
         $this->power = [
             'all' => 1,

@@ -1,16 +1,20 @@
 <?php
 
+include __DIR__ . '/MainController.php';
+
 class ArticleController extends MainController {
 
+    private $db_con;
+
     public $article_obj;
+    public $database;
 
-    public function __construct() {
+    public function __construct(Article $article, Database $database) {
 
-        $database = new Database();
-        $db_con = $database->db_connect();
+        $this->database = $database;
+        $this->db_con = $this->database->db_connect();
 
-        $article_obj = new Article($db_con);
-        $this->article_obj = $article_obj;
+        $this->article_obj = $article;
 
     }
 

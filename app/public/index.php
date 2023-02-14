@@ -1,11 +1,13 @@
 <?php
 
+use DI\Container;
+use DI\ContainerBuilder;
+
 require '../vendor/autoload.php';
 
-include __DIR__ . '/../inc/databaseClass.php';
-include __DIR__ . '/../inc/articleClass.php';
-
-include __DIR__ . '/controllers/MainController.php';
+$containerBuilder = new ContainerBuilder();
+$containerBuilder->addDefinitions(__DIR__ . '/definitions.php');
+$container = $containerBuilder->build();
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', 'ArticleController@index');
@@ -37,7 +39,7 @@ switch ($routeInfo[0]) {
         list($controller_name, $method) = explode("@", $handler, 2);
 
         include __DIR__ . '/controllers/' . $controller_name . '.php';
-        $controller = new $controller_name();
+        $controller = $container->get('ArticleController');
         var_dump($controller);
 
         $controller->main($method, $vars);

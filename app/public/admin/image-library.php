@@ -14,11 +14,9 @@ require_once '../../inc/imageClass.php';
 require_once '../../inc/accessClass.php';
 
 $database = new Database();
-$db_con = $database->db_connect();
 
-$access_obj = new Access($db_con);
-
-$image_obj = new Image($db_con);
+$access_obj = new Access($database);
+$image_obj = new Image($database);
 
 if( isset( $_FILES['editor-image']) ) {
 

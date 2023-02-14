@@ -14,11 +14,9 @@ require_once '../../inc/userClass.php';
 require_once '../../inc/accessClass.php';
 
 $database = new Database();
-$db_con = $database->db_connect();
 
-$access_obj = new Access($db_con);
-
-$user_obj = new User($db_con);
+$access_obj = new Access($database);
+$user_obj = new User($database);
 
 if(isset($_GET['id'])) {
     $id = (int)$_GET['id'];

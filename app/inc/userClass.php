@@ -1,6 +1,7 @@
 <?php
 
 class User {
+    private $database;
     private $con;
 
     public $id;
@@ -10,8 +11,9 @@ class User {
     public $email;
     public $role;
 
-    public function __construct($db_con) {
-        $this->con = $db_con;
+    public function __construct(Database $database) {
+        $this->database = $database;
+        $this->con = $this->database->db_connect();
     }
 
     public function get_user_by_id($id) {

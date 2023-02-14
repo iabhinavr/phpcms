@@ -1,6 +1,7 @@
 <?php
 
 class Article {
+    public $database;
     private $con;
 
     public $id;
@@ -10,8 +11,9 @@ class Article {
     public $modified;
     public $image;
 
-    function __construct ($db_con) {
-        $this->con = $db_con;
+    function __construct (Database $database) {
+        $this->database = $database;
+        $this->con = $this->database->db_connect();
     }
 
     public function get_article($id) {
