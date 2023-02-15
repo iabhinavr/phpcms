@@ -35,6 +35,25 @@ class Article {
         }
     }
 
+    public function get_article_by_slug($slug) {
+        try {
+            $stmt = $this->con->prepare("SELECT * FROM articles WHERE slug = :slug");
+            $stmt->bindParam(":slug", $slug, PDO::PARAM_STR);
+            $stmt->execute();
+            
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if(!empty($result)) {
+                return ["status" => true, "result" => $result];
+            }
+
+            return ["status" => false, "result" => "Error fetching article"];
+        }
+        catch (PDOException $e) {
+            return ["status" => false, "result" => $e->getMessage()];
+        }
+    }
+
     public function get_articles($args = []) {
 
         if(empty($args)) {
@@ -48,7 +67,7 @@ class Article {
          $offset = ($args['page_no'] - 1) * $limit;
 
         try {
-            $stmt = $this->con->prepare("SELECT * FROM articles ORDER BY id DESC LIMIT :limit OFFSET :offset");
+            $stmt = $this->con->prepare("SELECT * FROM articles ORDER BY published DESC LIMIT :limit OFFSET :offset");
             $stmt->bindParam(":limit", $limit, PDO::PARAM_INT);
             $stmt->bindParam(":offset", $offset, PDO::PARAM_INT);
             $stmt->execute();

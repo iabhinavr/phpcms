@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tw": "npx tailwindcss -i ./public/admin/assets/style.css -o ./public/admin/assets/main.css --watch",
+    "twfront": "npx tailwindcss -i ./public/assets/style.css -o ./public/assets/style.bundle.css --watch",
     "webpack": "npx webpack"
   },
   "author": "",

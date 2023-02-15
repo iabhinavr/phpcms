@@ -15,6 +15,8 @@ $container = $containerBuilder->build();
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', 'ArticleHandler@index');
+    $r->addRoute('GET', '/page/{page_no}', 'ArticleHandler@index');
+    $r->addRoute('GET', '/{name}', 'ArticleHandler@single');
 });
 
 // Fetch method and URI from somewhere
@@ -32,8 +34,7 @@ $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
 
     case FastRoute\Dispatcher::NOT_FOUND:
-        $frontend = new Frontend();
-        $frontend->error_404();
+        
         break;
 
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:

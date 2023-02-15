@@ -96,10 +96,10 @@ $authorization = $access_obj->is_authorized('article', 'read', NULL);
             <thead>
                 <tr class="[&>th]:border-b text-left [&>th]:p-2">
                     <th>Title</th>
-                    <th>Published Date</th>
-                    <th>Modified Date</th>
+                    <th>Published On</th>
+                    <th>Modified</th>
                     <th>Slug</th>
-                    <th>Featured Image</th>
+                    <th>Author</th>
                 </tr>
             </thead>
             
@@ -112,15 +112,36 @@ $authorization = $access_obj->is_authorized('article', 'read', NULL);
                                 <?= $article['title']; ?>
                             </a>
                         </td>
+
+                        <?php
+                        $datePublishedObj = DateTime::createFromFormat('Y-m-d H:i:s', $article['published']);
+                        $formattedPublishedDate = $datePublishedObj->format('M j, Y @ ga')
+                        ?>
                         <td>
-                            <?= $article['published']; ?>
+                            <?= $formattedPublishedDate ?>
                         </td>
-                        <td><?= $article['modified']; ?></td>
-                        <td><?= $article['slug']; ?></td>
+                        <?php
+                        $today = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+                        $dateModifiedObj = DateTime::createFromFormat('Y-m-d H:i:s', $article['modified']);
+                        $dateInterval = $dateModifiedObj->diff($today);
+                        $interval = $dateInterval->format("%a");
+                        if((int)$interval === 0) {
+                            $interval_text = 'Today';
+                        }
+                        else if((int)$interval === 1) {
+                            $interval_text = 'Yesterday';
+                        }
+                        else {
+                            $interval_text = $interval . ' days ago';
+                        }
+                        ?>
+                        <td><?= $interval_text ?></td>
                         <td>
-                            <a href="edit-image.php?id=<?= $article['image']; ?>">
-                                <?= $article['image']; ?>
-                            </a>
+                            <a href="/<?= $article['slug'] ?>" target="_blank"><?= $article['slug']; ?></a>
+                            
+                        </td>
+                        <td>
+                            <?= $article['author']; ?>
                         </td>
                     </tr>
                     
