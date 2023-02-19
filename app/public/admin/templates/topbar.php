@@ -1,16 +1,16 @@
-<div class="absolute w-full h-12 bg-slate-700 z-10 text-slate-100">
-    <ul class="flex items-center h-full">
+<div class="position-absolute w-100 bg-dark text-white d-flex align-items-center z-1">
+    <ul class="d-flex align-items-center justify-content-between mb-0 py-2 list-unstyled w-100">
         <li>
-            <h1 class="pl-3 text-lg font-bold">Dashboard - PHPCMS</h1>
+            <h1 class="ps-2 fs-4 font-bold mb-0">Dashboard - PHPCMS</h1>
         </li>
-        <li class="ml-auto">
-            <ul class="flex text-sm">
-                <li class="mr-2">Hello, <?= $_SESSION['first_name'] ?></li>
-                <li class="mr-2">
-                    <a href="/" class="px-2 py-1 rounded-sm border border-emerald-600 hover:bg-emerald-600/75">Visit Site</a>
+        <li>
+            <ul class="d-flex align-items-center list-unstyled">
+                <li class="me-2">Hello, <?= $_SESSION['first_name'] ?></li>
+                <li class="me-2">
+                    <a href="/" class="btn btn-sm btn-success">Visit Site</a>
                 </li>
-                <li class="mr-2">
-                    <a href="logout.php" class="px-2 py-1 rounded-sm border border-red-600 hover:bg-red-600/75">Logout →</a>
+                <li class="me-2">
+                    <a href="logout.php" class="btn btn-sm btn-danger">Logout →</a>
                 </li>
             </ul>    
         </li>

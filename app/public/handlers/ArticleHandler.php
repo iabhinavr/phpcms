@@ -34,7 +34,7 @@ class ArticleHandler extends MainHandler {
     public function index($vars = null) {
 
         $props = [
-            "page_title" => "Read Articles"
+            "page_title" => "Blog"
         ];
 
         $props['description'] = '';
@@ -58,7 +58,7 @@ class ArticleHandler extends MainHandler {
         $props['page_no'] = $args['page_no'];
         
         if($args['page_no'] > 1) {
-            $props['page_title'] = 'Page ' . $args['page_no'] . ' of ' . $props['total_pages'] . ' | Read Articles';
+            $props['page_title'] = 'Page ' . $args['page_no'] . ' of ' . $props['total_pages'] . ' | Blog';
         }
 
         $articles = $this->articleObj->get_articles($args);

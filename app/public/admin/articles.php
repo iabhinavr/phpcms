@@ -70,28 +70,34 @@ get_template('topbar');
 $authorization = $access_obj->is_authorized('article', 'read', NULL);
 
 ?>
-
-<div class="grid grid-cols-[200px_1fr] top-12 relative">
+<div class="container-fluid text-left">
+<div class="row position-relative">
 
     <?php get_template('sidebar'); ?>
-    <div class="px-4 py-3">
+    <div class="col-md-auto position-relative" style="top:47px">
 
         <?php if(empty($authorization)) : ?>
-            <p class="p-2 bg-red-500/75 text-white rounded-sm">You don't have enough permissions to access this resource</p>
+            <div class="alert alert-danger">You don't have enough permissions to access this resource</div>
             <?php get_template('footer'); ?>
             <?php exit(); ?>
         <?php endif; ?>
 
-        <h1 class="text-2xl pb-2 border-b mb-2">Articles</h1>
+        <h1 class="fs-2 pb-3 pt-3 border-bottom mb-3">Articles</h1>
 
-        <h2 class="text-xl mb-2">Add Article</h2>
+        <h2 class="fs-4 mb-2">Add Article</h2>
 
-        <form action="<?php echo htmlentities($_SERVER['PHP_SELF']) ?>" method="post" class="mb-4">
-            <input type="text" name="article-title" id="article-title" class="bg-slate-100 border border-slate-300 rounded-md mr-2 p-2 focus:outline-none focus:ring-1 focus:ring-blue-400 inline-block" placeholder="Title">
-            <input type="submit" value="Add Article" name="add-article" class="bg-blue-500 text-slate-100 py-2 px-3 rounded-md cursor-pointer">
+        <form action="<?php echo htmlentities($_SERVER['PHP_SELF']) ?>" method="post" class="mb-4 row g-3 align-items-center">
+            <div class="col-auto">
+                <input type="text" name="article-title" id="article-title" class="form-control" placeholder="Title">
+            </div>
+            <div class="col-auto">
+                <input type="submit" value="Add Article" name="add-article" class="btn btn-primary">
+            </div>
+            
+            
         </form>
 
-        <table class="table-auto border-collapse w-full text-sm">
+        <table class="table table-striped">
 
             <thead>
                 <tr class="[&>th]:border-b text-left [&>th]:p-2">
@@ -106,9 +112,9 @@ $authorization = $access_obj->is_authorized('article', 'read', NULL);
 
             <tbody>
                 <?php foreach($articles as $article) : ?>
-                    <tr class="[&>td]:border-b text-left [&>td]:p-2 hover:bg-slate-100 [&>td>a:hover]:underline [&>td>a]:text-sky-600">
+                    <tr>
                         <td>
-                            <a href="edit-article.php?id=<?= $article['id']; ?>">
+                            <a class="text-decoration-none" href="edit-article.php?id=<?= $article['id']; ?>">
                                 <?= $article['title']; ?>
                             </a>
                         </td>
@@ -150,18 +156,19 @@ $authorization = $access_obj->is_authorized('article', 'read', NULL);
             
         </table>
 
-        <div class="p-2 my-2 bg-slate-200/50 flex justify-between items-center">
-            <p class="text-sm italic">Showing <?= $args['page_no'] ?> of <?= $total_pages ?> pages</p>
-            <ul class="page-nav flex">
+        <div class="py-2 px-2 my-2 bg-body-secondary d-flex justify-content-between align-items-center">
+            <p class="mb-0">Showing <?= $args['page_no'] ?> of <?= $total_pages ?> pages</p>
+            <ul class="page-nav d-flex list-unstyled mb-0">
                 <li>
-                    <a href="<?php echo $page_no > 1 ? 'articles.php?page_no=' . $page_no - 1 : '#' ?>" class=" text-xs px-2 py-1 mr-1 block rounded-md <?php echo $page_no > 1 ? 'bg-slate-300' : 'bg-slate-200 pointer-events-none' ?>">Prev</a>
+                    <a href="<?php echo $page_no > 1 ? 'articles.php?page_no=' . $page_no - 1 : '#' ?>" class="btn btn-outline-primary btn-sm me-2 <?php echo $page_no > 1 ? '' : 'disabled' ?>">Prev</a>
                 </li>
                 <li>
-                    <a href="<?php echo $page_no < $total_pages ? 'articles.php?page_no=' . $page_no + 1 : '#' ?>" class="text-xs px-2 py-1 block rounded-md <?php echo $page_no < $total_pages ? 'bg-slate-300' : 'bg-slate-200 pointer-events-none' ?>">Next</a>
+                    <a href="<?php echo $page_no < $total_pages ? 'articles.php?page_no=' . $page_no + 1 : '#' ?>" class="btn btn-outline-primary btn-sm <?php echo $page_no < $total_pages ? '' : 'disabled' ?>">Next</a>
                 </li>
             </ul>
         </div>
 
     </div>
     
+</div>
 </div>

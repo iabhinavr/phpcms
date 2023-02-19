@@ -300,12 +300,14 @@ import ImageTool from '@editorjs/image';
 
             item.setAttribute('data-image-id', image.id);
             item.setAttribute('data-image-path', image.folder_path + '/' + image.file_name);
-            item.setAttribute('class', 'item');
+            item.setAttribute('class', 'item col');
     
             itemLink.setAttribute('href', '#');
+            itemLink.setAttribute('class', 'd-block position-relative w-100')
 
             itemImg.setAttribute('src', '../uploads/thumbnails/' + image.folder_path + '/' + image.file_name);
             itemImg.setAttribute('alt', image.title);
+            itemImg.setAttribute('class', 'w-100 h-100 object-fit-cover object-center')
             
             itemLink.appendChild(itemImg);
             item.appendChild(itemLink);
@@ -395,28 +397,20 @@ import ImageTool from '@editorjs/image';
         }    
 
         if(prev) {
-            prevElem.classList.remove('bg-slate-400');
-            prevElem.classList.add('bg-slate-200');
-            prevElem.classList.remove('pointer-events-none');
+            prevElem.classList.remove('disabled');
             prevElem.setAttribute('data-page-no', page_no - 1);
         }
         else {
-            prevElem.classList.add('bg-slate-400');
-            prevElem.classList.remove('bg-slate-200');
-            prevElem.classList.add('pointer-events-none');
+            prevElem.classList.add('disabled');
             prevElem.setAttribute('data-page-no', '');
         }
 
         if(next) {
-            nextElem.classList.remove('bg-slate-400');
-            nextElem.classList.add('bg-slate-200');
-            nextElem.classList.remove('pointer-events-none');
+            nextElem.classList.remove('disabled');
             nextElem.setAttribute('data-page-no', page_no + 1);
         }
         else {
-            nextElem.classList.add('bg-slate-400');
-            nextElem.classList.remove('bg-slate-200');
-            nextElem.classList.add('pointer-events-none');
+            nextElem.classList.add('disabled');
             nextElem.setAttribute('data-page-no', '');
         }
 
@@ -504,5 +498,52 @@ import ImageTool from '@editorjs/image';
 
     if(setSelectedImageButton) {
         setSelectedImageButton.addEventListener('click', setSelectedImage);
+    }
+
+
+    const changePasswordForm = document.getElementById('change-password-form');
+
+    const changePasswordFormOnSubmit = async function (event) {
+        event.preventDefault();
+
+        const userId = document.querySelector('input[name="user-id"]').value;
+        const existingPassword = document.querySelector('input[name="existing-password"]').value;
+        const newPassword = document.querySelector('input[name="new-password"]').value;
+        const retypePassword = document.querySelector('input[name="retype-password"').value;
+
+
+        const userData = new FormData();
+        userData.append('id', userId);
+        userData.append('existing', existingPassword);
+        userData.append('new', newPassword);
+        userData.append('retype', retypePassword);
+        userData.append('password-change-submit', 'submitted');
+
+        const result = await fetch('/admin/edit-user.php', {
+            method: 'POST',
+            body: userData,
+        });
+
+        const resJson = await result.json();
+
+        if(resJson.status) {
+            swal({
+                title: "Success",
+                text: resJson.result,
+                icon: "success",
+            });
+        }
+        else {
+            swal({
+                title: "Check Again!",
+                text: resJson.result,
+                icon: "error",
+            });
+        }
+        console.log(resJson);
+    }
+
+    if(changePasswordForm) {
+        changePasswordForm.addEventListener('submit', changePasswordFormOnSubmit);
     }
 })();

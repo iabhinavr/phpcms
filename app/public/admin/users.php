@@ -53,64 +53,66 @@ $authorization = $access_obj->is_authorized(
 
 ?>
 
-<div class="grid grid-cols-[200px_1fr] top-12 relative">
-
-    <?php get_template('sidebar'); ?>
-    <div class="px-4 py-3">
-
-        <?php if(empty($authorization)) : ?>
-            <p class="p-2 bg-red-500/75 text-white rounded-sm">You don't have enough permissions to access this resource</p>
-            <?php get_template('footer'); ?>
-            <?php exit(); ?>
-        <?php endif; ?>
-        
-        <h1 class="text-2xl pb-2 border-b mb-2">Users</h1>
-
-
-        <table class="table-auto border-collapse w-full text-sm">
-
-            <thead>
-                <tr class="[&>th]:border-b text-left [&>th]:p-2">
-                    <th>Name</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                </tr>
-            </thead>
-            
-
-            <tbody>
-                <?php foreach($users as $user) : ?>
-                    <tr class="[&>td]:border-b text-left [&>td]:p-2 hover:bg-slate-100 [&>td>a:hover]:underline [&>td>a]:text-sky-600">
-                        <td>
-                            <a href="edit-user.php?id=<?= $user['id']; ?>">
-                                <?= $user['first_name']; ?>
-                            </a>
-                        </td>
-                        <td>
-                            <?= $user['username']; ?>
-                        </td>
-                        <td><?= $user['email']; ?></td>
-                        <td><?= $user['role']; ?></td>
-                    </tr>
-                    
-                <?php endforeach; ?>
-            </tbody>
-            
-        </table>
-
-        <div class="p-2 my-2 bg-slate-200/50 flex justify-between items-center">
-            <p class="text-sm italic">Showing <?= $args['page_no'] ?> of <?= $total_pages ?> pages</p>
-            <ul class="page-nav flex">
-                <li>
-                    <a href="<?php echo $page_no > 1 ? 'users.php?page_no=' . $page_no - 1 : '#' ?>" class=" text-xs px-2 py-1 mr-1 block rounded-md <?php echo $page_no > 1 ? 'bg-slate-300' : 'bg-slate-200 pointer-events-none' ?>">Prev</a>
-                </li>
-                <li>
-                    <a href="<?php echo $page_no < $total_pages ? 'users.php?page_no=' . $page_no + 1 : '#' ?>" class="text-xs px-2 py-1 block rounded-md <?php echo $page_no < $total_pages ? 'bg-slate-300' : 'bg-slate-200 pointer-events-none' ?>">Next</a>
-                </li>
-            </ul>
-        </div>
-
-    </div>
+<div class="container-fluid text-left">
+    <div class="row position-relative">
     
+        <?php get_template('sidebar'); ?>
+        <div class="editor-middle col-md-10 px-4 py-3">
+    
+            <?php if(empty($authorization)) : ?>
+                <div class="alert alert-danger">You don't have enough permissions to access this resource</div>
+                <?php get_template('footer'); ?>
+                <?php exit(); ?>
+            <?php endif; ?>
+    
+            <h1 class="text-2xl pb-2 border-b mb-2">Users</h1>
+    
+    
+            <table class="table table-striped">
+    
+                <thead>
+                    <tr class="[&>th]:border-b text-left [&>th]:p-2">
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+    
+    
+                <tbody>
+                    <?php foreach($users as $user) : ?>
+                        <tr class="[&>td]:border-b text-left [&>td]:p-2 hover:bg-slate-100 [&>td>a:hover]:underline [&>td>a]:text-sky-600">
+                            <td>
+                                <a href="edit-user.php?id=<?= $user['id']; ?>">
+                                    <?= $user['first_name']; ?>
+                                </a>
+                            </td>
+                            <td>
+                                <?= $user['username']; ?>
+                            </td>
+                            <td><?= $user['email']; ?></td>
+                            <td><?= $user['role']; ?></td>
+                        </tr>
+    
+                    <?php endforeach; ?>
+                </tbody>
+    
+            </table>
+    
+            <div class="py-2 px-2 my-2 bg-body-secondary d-flex justify-content-between align-items-center">
+                <p class="mb-0">Showing <?= $args['page_no'] ?> of <?= $total_pages ?> pages</p>
+                <ul class="page-nav d-flex list-unstyled mb-0">
+                    <li>
+                        <a href="<?php echo $page_no > 1 ? 'users.php?page_no=' . $page_no - 1 : '#' ?>" class="btn btn-outline-primary me-2 <?php echo $page_no > 1 ? 'bg-slate-300' : 'bg-slate-200 pointer-events-none' ?>">Prev</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $page_no < $total_pages ? 'users.php?page_no=' . $page_no + 1 : '#' ?>" class="btn btn-outline-primary <?php echo $page_no < $total_pages ? 'bg-slate-300' : 'bg-slate-200 pointer-events-none' ?>">Next</a>
+                    </li>
+                </ul>
+            </div>
+    
+        </div>
+    
+    </div>
 </div>

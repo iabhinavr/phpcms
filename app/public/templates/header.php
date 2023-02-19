@@ -6,24 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $props['page_title'] ?></title>
     <meta name="description" content="<?= $props['description'] ?>">
-    <link rel="stylesheet" href="/assets/style.bundle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/custom.css">
 </head>
 <body>
     <header class=" bg-slate-800">
-        <div class="container mx-auto lg:max-w-3xl flex items-stretch">
-            <div class="logo-area">
-                <h1 class="text-white p-2 font-bold text-xl">PHPCMS</h1>
+
+        <nav class="navbar bg-body-tertiary navbar-expand-lg" data-bs-theme="dark">
+            <div class="container">
+                <a href="#" class="navbar-brand">PHPCMS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">Articles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <nav class="ml-auto flex items-stretch">
-                <ul class="flex items-stretch [&>li>a]:h-full [&>li>a]:text-white [&>li>a]:px-3 [&>li>a:hover]:bg-slate-700 [&>li]:flex [&>li]:items-stretch [&>li>a]:flex [&>li>a]:items-center">
-                    <li>
-                        <a href="/">Articles</a>
-                    </li>
-                    <li>
-                        <a href="/about">About</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+            
+        </nav>
+
     </header>
     

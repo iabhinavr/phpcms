@@ -44,25 +44,29 @@ get_template('header');
 
 ?>
 
-<div class="min-h-[100vh] flex items-center justify-center flex-col bg-slate-200/75">
+<div class="min-vh-100 d-flex align-items-center justify-content-center flex-column bg-body-secondary">
 
     <?php if(isset($authenticated) && $authenticated === false ) : ?>
         <div class=" bg-red-500 p-2 text-sm text-white rounded-sm mb-2">Incorrect Username or Password!</div>
     <?php endif; ?>
 
-    <div class="flex justify-center items-center w-[320px] bg-slate-100 p-6">
-        <form action="" method="post" class="flex flex-col w-full">
-            <label for="username" class="pb-1">Username</label>
-            <input type="text" name="username" id="username" class="rounded-sm mb-2 p-2 focus:outline-none focus:ring-1 focus:ring-blue-400">
-            <label for="password" class="pb-1">Password</label>
-            <input type="password" name="password" id="password" class="rounded-sm mb-2 p-2 focus:outline-none focus:ring-1 focus:ring-blue-400">
-            <div class="flex justify-between mt-2">
-                <div>
-                    <input type="checkbox" name="rememberme" id="rememberme">
-                    <label for="rememberme">Remember Me</label>
-                </div>
-                <input type="submit" value="Login" name="login" id="login" class="px-3 py-1 bg-emerald-500/75 hover:bg-emerald-600 rounded-sm text-slate-100 cursor-pointer">
+    <div class="d-flex justify-content-center align-items-center w-[320px] bg-slate-100 p-6">
+        <form action="" method="post" class="d-flex flex-column w-100">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" name="username" id="username" class="form-control">
             </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-control">
+            </div>
+            
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" name="rememberme" id="rememberme" class="form-check-input">
+                <label for="rememberme" class="form-check-label">Remember Me</label>
+            </div>
+            <input type="submit" value="Login" name="login" id="login" class="btn btn-primary">
             
         </form>
     </div>

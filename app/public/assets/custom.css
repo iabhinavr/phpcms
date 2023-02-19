@@ -1,0 +1,73 @@
+.blog-hero {
+    background-image: url('/assets/images/bg-2.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding: 5rem 0;
+    min-height: 20rem;
+    background-size: cover;
+}
+.overlay {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    background-color: black;
+    opacity: 30%;
+}
+
+.post-content p {
+    padding-bottom: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  .post-content a {
+    color: rgb(96 165 250);
+    text-decoration-line: underline;
+  }
+  
+  .post-content a:hover {
+    color: rgb(37 99 235);
+  }
+  .post-content img {
+    max-width: 100%;
+  }
+  .post-content ul {
+    list-style-position: inside;
+    list-style-type: disc;
+    padding-bottom: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  .post-content ol {
+    list-style-position: inside;
+    list-style-type: decimal;
+    padding-bottom: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  .post-content figure {
+    padding-bottom: 1rem;
+  }
+  
+  .post-content figure figcaption {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .post-content h2 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+  }
+  
+  .post-content h3 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+  }
