@@ -74,7 +74,7 @@ $authorization = $access_obj->is_authorized('article', 'read', NULL);
 <div class="row position-relative">
 
     <?php get_template('sidebar'); ?>
-    <div class="col-md-auto position-relative" style="top:47px">
+    <div class="col-md-10 position-relative editor-middle bg-light-subtle">
 
         <?php if(empty($authorization)) : ?>
             <div class="alert alert-danger">You don't have enough permissions to access this resource</div>
@@ -172,3 +172,7 @@ $authorization = $access_obj->is_authorized('article', 'read', NULL);
     
 </div>
 </div>
+
+<?php
+
+get_template('footer');

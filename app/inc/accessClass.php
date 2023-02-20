@@ -37,9 +37,12 @@ class Access {
 
             if($result) {
                 $access_string = $stmt->fetchColumn();
-                $access_string = str_replace(" ", "", $access_string);
-                $access_list = explode(",", $access_string);
-                return $access_list;
+                if(!empty($access_string)) {
+                    $access_string = str_replace(" ", "", $access_string);
+                    $access_list = explode(",", $access_string);
+                    return $access_list;
+                }
+                
             }
             return false;
         }
@@ -78,7 +81,7 @@ class Access {
 
         // If current user's role is in the access list, allow access right away
 
-        if(in_array($current_user['role'], $access_list)) {
+        if(in_array($current_user['role'], $access_list)) { 
             return true;
         }
 
@@ -163,8 +166,8 @@ class Access {
     }
 
     public function is_backend() {
-        $host = $_SERVER['HTTP_HOST'];
-        if(strpos($host, '/admin/') !== false) {
+        $request_uri = $_SERVER['REQUEST_URI'];
+        if(strpos($request_uri, '/admin/') !== false) {
             return true;
         }
         return false;

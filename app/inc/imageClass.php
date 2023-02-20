@@ -4,6 +4,8 @@ class Image {
     private $database;
     private $con;
 
+    private $settings;
+
     public $title;
     public $type;
     public $id;
@@ -23,9 +25,11 @@ class Image {
     public $validation;
 
 
-    public function __construct(Database $database) {
+    public function __construct(Database $database, Settings $settings) {
         $this->database = $database;
         $this->con = $this->database->db_connect();
+
+        $this->settings = $settings;
     }
 
     public function add_image($data) {
@@ -207,7 +211,18 @@ class Image {
             $src_width = $image->getImageWidth();
             $src_height = $image->getImageHeight();
     
+
             $dest_width = 640;
+            
+            $get_saved_width = $this->settings->get_option('thumbnail_size');
+
+            if($get_saved_width["status"]) {
+                $saved_width = $get_saved_width["result"]["option_value"];
+                $dest_width = (int)$saved_width;
+            }
+
+            $dest_width = (int)$dest_width;
+            
             $dest_height = floor($dest_width * ($src_height / $src_width));
     
             $scale_image = $image->scaleImage($dest_width, $dest_height, true);

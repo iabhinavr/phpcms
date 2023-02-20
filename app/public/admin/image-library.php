@@ -10,13 +10,15 @@ if(empty($_SESSION['username'])) {
 include('inc/functions.php');
 
 require_once '../../inc/databaseClass.php';
+require_once '../../inc/settingsClass.php';
 require_once '../../inc/imageClass.php';
 require_once '../../inc/accessClass.php';
 
 $database = new Database();
 
 $access_obj = new Access($database);
-$image_obj = new Image($database);
+$settings_obj = new Settings($database);
+$image_obj = new Image($database, $settings_obj);
 
 if( isset( $_FILES['editor-image']) ) {
 
@@ -135,7 +137,7 @@ $authorization = $access_obj->is_authorized('image', 'read', NULL);
 <div class="row position-relative">
 
     <?php get_template('sidebar'); ?>
-    <div class="col-md-10 position-relative"  style="top:47px">
+    <div class="col-md-10 position-relative bg-light-subtle"  style="top:47px">
 
         <?php if(empty($authorization)) : ?>
             <div class="alert alert-danger">You don't have enough permissions to access this resource</div>
@@ -204,3 +206,7 @@ $authorization = $access_obj->is_authorized('image', 'read', NULL);
     
 </div>
 </div>
+
+<?php
+
+get_template('footer');

@@ -11,12 +11,13 @@ include('inc/functions.php');
 
 require_once '../../inc/databaseClass.php';
 require_once '../../inc/imageClass.php';
+require_once '../../inc/settingsClass.php';
 require_once '../../inc/accessClass.php';
 
 $database = new Database();
-
 $access_obj = new Access($database);
-$image_obj = new Image($database);
+$settings_obj = new Settings($database);
+$image_obj = new Image($database, $settings_obj);
 
 if(isset($_POST['image-save'])) {
 
@@ -94,7 +95,7 @@ $authorization = $access_obj->is_authorized('image', 'update',(int)$_GET['id']);
     
         <?php get_template('sidebar'); ?>
     
-        <div class="editor-middle flex-grow-1 col-md-8 position-relative px-2 editor-center max-vh-90 overflow-y-scroll">
+        <div class="editor-middle flex-grow-1 col-md-8 position-relative px-2 editor-center max-vh-90 overflow-y-scroll bg-light-subtle">
     
             <?php if(empty($authorization)) : ?>
                 <div class="alert alert-danger">You don't have enough permissions to access this resource</div>

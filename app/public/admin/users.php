@@ -57,7 +57,7 @@ $authorization = $access_obj->is_authorized(
     <div class="row position-relative">
     
         <?php get_template('sidebar'); ?>
-        <div class="editor-middle col-md-10 px-4 py-3">
+        <div class="editor-middle col-md-10 bg-light-subtle">
     
             <?php if(empty($authorization)) : ?>
                 <div class="alert alert-danger">You don't have enough permissions to access this resource</div>
@@ -116,3 +116,7 @@ $authorization = $access_obj->is_authorized(
     
     </div>
 </div>
+
+<?php
+
+get_template('footer');

@@ -546,4 +546,110 @@ import ImageTool from '@editorjs/image';
     if(changePasswordForm) {
         changePasswordForm.addEventListener('submit', changePasswordFormOnSubmit);
     }
+
+    /**
+     * Site Setting Form
+     */
+
+    const siteSettingsForm = document.getElementById('site-settings-form');
+
+    const siteSettingsFormOnSubmit = async function(event) {
+        event.preventDefault();
+
+        const siteTitle = document.getElementsByName('site-title')[0].value;
+        const siteTagline = document.getElementsByName('site-tagline')[0].value;
+        const thumbnailSize = document.getElementsByName('thumbnail-size')[0].value;
+
+        const settingsData = new FormData();
+
+        settingsData.append('site_title', siteTitle);
+        settingsData.append('site_tagline', siteTagline);
+        settingsData.append('thumbnail_size', thumbnailSize);
+        settingsData.append('settings_save', 'submitted');
+
+        const result = await fetch('/admin/settings.php', {
+            method: 'POST',
+            body: settingsData
+        });
+
+        const resJson = await result.json();
+
+        if(resJson.status) {
+            swal({
+                title: "Success",
+                text: resJson.result,
+                icon: "success",
+            });
+        }
+        else {
+            swal({
+                title: "Check Again!",
+                text: resJson.result,
+                icon: "error",
+            });
+        }
+        
+        console.log(resJson);
+
+    }
+
+    if(siteSettingsForm) {
+        siteSettingsForm.addEventListener('submit', siteSettingsFormOnSubmit);
+    }
+
+    /**
+     * Light and theme dark theme toggling
+     */
+
+    const html = document.getElementsByTagName('html')[0];
+    const themeToggler = document.getElementById('theme-toggler');
+    const svg = themeToggler.getElementsByTagName('svg')[0];
+    const svgUse = themeToggler.getElementsByTagName('use')[0];
+
+    const getTheme = async function() {
+        const theme = await localStorage.getItem('theme');
+        return theme;
+    }
+
+    const setTheme = async function(theme) {
+        localStorage.setItem('theme', theme);
+        let fillAttr = (theme === 'dark') ? 'white' : 'black';
+        let svgUseHref = (theme === 'dark') ? '#moon-fill' : '#light-fill';
+
+        html.setAttribute('data-bs-theme', theme);
+        svg.setAttribute('fill', fillAttr);
+        svgUse.setAttribute('href', svgUseHref);
+    }
+
+    const initTheme = async function() {
+        const savedTheme = await getTheme();
+        console.log(savedTheme);
+
+        if(savedTheme) {
+            await setTheme(savedTheme);
+        }
+        else {
+            await setTheme('light');
+        }
+
+    }
+
+    await initTheme();
+
+    const themeTogglerOnClick = async function(event) {
+        
+        const currentTheme =  await getTheme();
+        
+        if(currentTheme === 'light') {
+            await setTheme('dark');
+        }
+        else {
+            await setTheme('light');
+        }
+    }
+    
+    if(themeToggler) {
+        themeToggler.addEventListener('click', themeTogglerOnClick);
+    }
+
 })();

@@ -12,13 +12,15 @@ include('inc/functions.php');
 require_once '../../inc/databaseClass.php';
 require_once '../../inc/articleClass.php';
 require_once '../../inc/imageClass.php';
+require_once '../../inc/settingsClass.php';
 require_once '../../inc/accessClass.php';
 
 $database = new Database();
 
 $access_obj = new Access($database);
 $article_obj = new Article($database);
-$image_obj = new Image($database);
+$settings_obj = new Settings($database);
+$image_obj = new Image($database, $settings_obj);
 
 if(isset($_GET['id'])) {
     $id = (int)$_GET['id'];
@@ -104,16 +106,13 @@ $authorization = $access_obj->is_authorized('article', 'update', (int)$_GET['id'
         <?php get_template('sidebar'); ?>
     
         <?php if(empty($authorization)) : ?>
-            <div class="col px-2 py-4">
+            <div class="col editor-middle">
                 <div class="alert alert-danger">You don't have enough permissions to access this resource</div>
             </div>
+        <?php else : ?>
+        
     
-        </div>
-            <?php get_template('footer'); ?>
-            <?php exit(); ?>
-        <?php endif; ?>
-    
-        <div class="flex-grow-1 col-md-auto position-relative px-2 editor-center max-vh-90 overflow-y-scroll" style="top: 47px">
+        <div class="flex-grow-1 col-md-auto position-relative px-2 editor-middle vh-100 overflow-y-scroll bg-light-subtle">   
     
             <form action="" id="edit-article-form">
                 <input type="text" name="article-title" value="<?= $article['title'] ?>" class="mt-3 mb-3 form-control form-control-lg">
@@ -126,7 +125,7 @@ $authorization = $access_obj->is_authorized('article', 'update', (int)$_GET['id'
     
         </div>
     
-        <div class="col-md-2 editor-sidebar sidebar min-vh-100 bg-body-secondary p-2 position-relative"  style="top: 47px">
+        <div class="col-md-2 editor-sidebar sidebar min-vh-100 p-2 position-relative bg-body-tertiary"  style="top: 47px">
             <button class="px-2 py-2 mb-2 w-100 btn btn-success" id="save-article-button">
                 Save Article
             </button>
@@ -142,7 +141,7 @@ $authorization = $access_obj->is_authorized('article', 'update', (int)$_GET['id'
                 Delete Article
             </button>
         </div>
-    
+        <?php endif; ?>
     </div>
     
     <div class="modal fade-show" id="image-library-modal-fullscreen" data-bs-backdrop="static" data-bs-keyboard="false">

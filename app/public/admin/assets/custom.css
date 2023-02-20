@@ -1,10 +1,55 @@
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+html[data-bs-theme="dark"] ::-webkit-scrollbar-track {
+    background: rgba(255,255,255,.05);
+}
+
+html[data-bs-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,.2);
+    border-radius: 5px;
+}
+
+html[data-bs-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,.3);
+}
+
+html[data-bs-theme="light"] ::-webkit-scrollbar-track {
+    background: rgba(0,0,0,.05);
+}
+
+html[data-bs-theme="light"] ::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.2);
+    border-radius: 5px;
+}
+
+html[data-bs-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,.3);
+}
+
+.sidebar-nav li a span img {
+    height: 21px;
+    margin-right: 5px;
+}
+
+.sidebar-nav li a {
+    text-decoration: none;
+    padding: .5rem 0;
+    display: block;
+}
+
+html[data-bs-theme="dark"] .sidebar-nav svg {
+    fill: white;
+}
+
 .img-overlay-edit {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0,0,0,.7);
+    background-color: rgba(0, 0, 0, .7);
     z-index: 10;
     opacity: 0;
     transition: all .3s ease;
@@ -20,22 +65,28 @@
 
 .featured-image-selector {
     position: relative;
-    height: 9rem; 
+    height: 9rem;
     background: #eee url('/admin/assets/images/image-icon.svg') no-repeat center center;
     cursor: pointer;
 }
+
 .featured-image-selector:hover {
     background: #fff url('/admin/assets/images/image-icon.svg') no-repeat center center;
 }
+
 .sidebar-thumbnail {
     position: relative;
     height: 9rem;
 }
-.featured-image-selector > span,
-.sidebar-thumbnail > span {
+
+.featured-image-selector>span,
+.sidebar-thumbnail>span {
     display: block;
     position: absolute;
-    top: 0; bottom: 0; right: 0; left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -46,6 +97,10 @@
 .editor-sidebar {
     position: relative;
     top: 47px;
+}
+
+.editor-middle {
+    padding-top: 1rem;
 }
 
 #modal-image-list li a,

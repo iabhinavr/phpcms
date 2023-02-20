@@ -88,7 +88,7 @@ $authorization = $access_obj->is_authorized(
     
         <?php get_template('sidebar'); ?>
     
-        <div class="editor-middle col-md-10">
+        <div class="editor-middle col-md-10 bg-light-subtle">
     
             <?php if(empty($authorization)) : ?>
                 <div class="alert alert-danger">You don't have enough permissions to access this resource</div>
