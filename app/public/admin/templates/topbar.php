@@ -3,7 +3,7 @@
         <li>
             <ul class="d-flex align-items-center list-unstyled">
                 <li class="me-2">
-                    <h1 class="ps-2 fs-4 font-bold mb-0">Dashboard - PHPCMS</h1>
+                    <h1 class="ps-2 fs-5 mb-0">Dashboard - PHPCMS</h1>
                 </li>
                 <li>
                     <span id="theme-toggler">
@@ -11,7 +11,6 @@
                             <use href="#light-fill"></use>
                         </svg>
                     </span>
-                    
                 </li>
             </ul>
             

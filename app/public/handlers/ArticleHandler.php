@@ -148,6 +148,7 @@ class ArticleHandler extends MainHandler {
         $this->render('header', $props);
 
         // var_dump($props);
+        
         $this->render('article-single', $props);
     }
 }

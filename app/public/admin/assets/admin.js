@@ -11,6 +11,7 @@ import ImageTool from '@editorjs/image';
 
     const getEditorData = async function (editorElem) {
         let editorContent = editorElem.innerHTML;
+        console.log(editorContent);
         editorElem.innerHTML = '';
 
         let decodedEditorContent = '';
@@ -25,39 +26,7 @@ import ImageTool from '@editorjs/image';
         }
 
         return parsedEditorContent;
-    }
-    
-    if(editorElem) {
-    
-        let editorContent = await getEditorData(editorElem);
-        console.log(editorContent);
 
-        editor = new EditorJS({
-            holder: 'editorjs',
-        
-            tools: {
-                header: {
-                    class: Header,
-                    inlineToolbar: ['link']
-                },
-                list: {
-                    class: List,
-                    inlineToolbar: true
-                },
-                image: {
-                    class: ImageTool,
-                    config: {
-                        endpoints: {
-                            byFile: '/admin/image-library.php',
-                        },
-                        field: 'editor-image',
-                    }
-                }
-            },
-
-            data: editorContent,
-            autofocus: true,
-        });
     }
     
     // Handle article save action
@@ -254,8 +223,38 @@ import ImageTool from '@editorjs/image';
     const imagesUl = document.getElementById('modal-image-list');
     const setSelectedImageButton = document.getElementById('set-selected-image');
 
+    let resultElem = null;
+
     const prevElem = document.getElementById('image-library-prev');
     const nextElem = document.getElementById('image-library-next');
+
+    const openImageLibraryModal = async function (action) {
+        console.log('open image library modal');
+    
+        imagesUl.innerHTML = '';
+
+        setSelectedImageButton.setAttribute('data-action', action);
+    
+        const fetchArgs = new FormData();
+        fetchArgs.append('fetch-images', "submitted");
+        fetchArgs.append('per_page', 6);
+        fetchArgs.append('page_no', 1);
+    
+        const fetchImages = await fetch('/admin/image-library.php', {
+            method: 'POST',
+            body: fetchArgs,
+        });
+    
+        const fetchJson = await fetchImages.json();
+    
+        if(fetchJson.status === true) {
+            let images = fetchJson.result;
+    
+            await insertImages(images);
+            calculatePagination(6,1);
+            
+        }
+    }
 
     const imageOnClick = async function (event) {
 
@@ -321,35 +320,12 @@ import ImageTool from '@editorjs/image';
     }
     
     const sidebarImageButtonOnClick = async function (event) {
-        console.log('open image library');
-    
-        imagesUl.innerHTML = '';
-    
-        imageLibrary.classList.remove('hidden');
-        imageLibrary.classList.add('fixed');
 
-        setSelectedImageButton.setAttribute('data-action', 'set-featured-image');
-    
-        const fetchArgs = new FormData();
-        fetchArgs.append('fetch-images', "submitted");
-        fetchArgs.append('per_page', 6);
-        fetchArgs.append('page_no', 1);
-    
-        const fetchImages = await fetch('/admin/image-library.php', {
-            method: 'POST',
-            body: fetchArgs,
-        });
-    
-        const fetchJson = await fetchImages.json();
-    
-        if(fetchJson.status === true) {
-            let images = fetchJson.result;
-            console.log(images);
-    
-            await insertImages(images);
-            calculatePagination(6,1);
-            
-        }
+        event.preventDefault();
+
+        resultElem = document.querySelector('input[name="article-image"]');
+
+        openImageLibraryModal('set-featured-image');
     
     }
     
@@ -458,6 +434,8 @@ import ImageTool from '@editorjs/image';
         const thumbnailSrc = event.currentTarget.getAttribute('data-thumbnail-src');
         const fullSrc = event.currentTarget.getAttribute('data-full-src');
 
+        console.log(resultElem);
+
         switch(buttonAction) {
             case 'set-featured-image' :
                 const inputField = document.querySelector('input[name="article-image"]');
@@ -465,6 +443,9 @@ import ImageTool from '@editorjs/image';
                 if(thumbnailSrc && fullSrc) {
                     sidebarImageButton.style.backgroundImage = 'url(' + thumbnailSrc + ')';
                 }
+                break;
+            case 'insert-post-image' :
+                resultElem.src = fullSrc;
                 break;
             default:
                 console.log('nothing happened');
@@ -498,6 +479,104 @@ import ImageTool from '@editorjs/image';
 
     if(setSelectedImageButton) {
         setSelectedImageButton.addEventListener('click', setSelectedImage);
+    }
+
+    class InsertImage {
+        static get toolbox() {
+            return {
+                title: 'Insert Image',
+                icon: '<svg width="17" height="15" viewBox="0 0 336 276" xmlns="http://www.w3.org/2000/svg"><path d="M291 150V79c0-19-15-34-34-34H79c-19 0-34 15-34 34v42l67-44 81 72 56-29 42 30zm0 52l-43-30-56 30-81-67-66 39v23c0 19 15 34 34 34h178c17 0 31-13 34-29zM79 0h178c44 0 79 35 79 79v118c0 44-35 79-79 79H79c-44 0-79-35-79-79V79C0 35 35 0 79 0z"/></svg>'
+            }
+        }
+
+        constructor({data}) {
+            this.data = data;
+        }
+
+        render() {
+            let img = document.createElement('img');
+            img.classList.add('w-100');
+            let btn = document.createElement('button');
+            btn.classList.add('btn', 'btn-primary', 'mt-2');
+            btn.setAttribute('data-bs-toggle', 'modal');
+            btn.setAttribute('data-bs-target', '#image-library-modal-fullscreen');
+            btn.innerHTML = 'Select Image';
+
+            img.src = this.data.file.url ? this.data.file.url : '';
+
+            btn.addEventListener('click', function(event) {
+                event.preventDefault();
+                console.log('select image button clicked');
+
+                resultElem = img;
+
+                openImageLibraryModal('insert-post-image');
+
+                if(typeof openImageLibraryModal === "function") {
+                    console.log('openImageLibraryModal exists');
+                }
+            });
+
+            let wrapper = document.createElement('div');
+            wrapper.appendChild(img);
+            wrapper.appendChild(btn);
+
+            
+            return wrapper;
+        }
+
+        save(blockContent) {
+            const src = blockContent.querySelector('img').src;
+            return {
+                
+                file: {
+                    url: src
+                },
+                caption: "",
+                withBorder: false,
+                withBackground: false,
+                stretched: false,
+                
+            }
+        }
+    }
+
+
+    if(editorElem) {
+    
+        let editorContent = await getEditorData(editorElem);
+
+        console.log(editorContent);
+
+        editor = new EditorJS({
+            holder: 'editorjs',
+        
+            tools: {
+                header: {
+                    class: Header,
+                    inlineToolbar: ['link']
+                },
+                list: {
+                    class: List,
+                    inlineToolbar: true
+                },
+                image: {
+                    class: ImageTool,
+                    config: {
+                        endpoints: {
+                            byFile: '/admin/image-library.php',
+                        },
+                        field: 'editor-image',
+                    }
+                },
+                insertImage: {
+                    class: InsertImage
+                }
+            },
+
+            data: editorContent,
+            autofocus: true,
+        });
     }
 
 

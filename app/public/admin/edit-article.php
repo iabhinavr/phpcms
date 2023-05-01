@@ -115,7 +115,7 @@ $authorization = $access_obj->is_authorized('article', 'update', (int)$_GET['id'
         <div class="flex-grow-1 col-md-auto position-relative px-2 editor-middle vh-100 overflow-y-scroll bg-light-subtle">   
     
             <form action="" id="edit-article-form">
-                <input type="text" name="article-title" value="<?= $article['title'] ?>" class="mt-3 mb-3 form-control form-control-lg">
+                <input type="text" name="article-title" value="<?= $article['title'] ?>" class="mt-3 mb-3 form-control form-control-lg bg-transparent">
                 <input type="hidden" name="published-date" value="<?= $article['published'] ?>">
                 <input type="hidden" name="modified-date" value="<?= $article['modified'] ?>">
                 <input type="hidden" name="article-image" value="<?= $article['image'] ?>">

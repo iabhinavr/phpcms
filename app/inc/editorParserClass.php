@@ -37,7 +37,10 @@ class EditorParser {
                     break;
                 case 'image':
                     $this->image($block);
-                    break;                   
+                    break;
+                case 'insertImage':
+                    $this->image($block);
+                    break;                 
             }
         }
     }

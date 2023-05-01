@@ -28,19 +28,37 @@ html[data-bs-theme="light"] ::-webkit-scrollbar-thumb:hover {
     background: rgba(0,0,0,.3);
 }
 
-.sidebar-nav li a span img {
-    height: 21px;
-    margin-right: 5px;
+html[data-bs-theme="dark"] .codex-editor path {
+    stroke: white;
 }
 
-.sidebar-nav li a {
-    text-decoration: none;
-    padding: .5rem 0;
-    display: block;
+.sidebar-nav svg {
+    fill: currentColor;
 }
 
-html[data-bs-theme="dark"] .sidebar-nav svg {
-    fill: white;
+html[data-bs-theme="dark"] .ce-toolbar__plus:hover,
+html[data-bs-theme="dark"] .ce-toolbar__settings-btn:hover {
+    background-color: darkmagenta;
+}
+
+html[data-bs-theme="dark"] .ce-popover {
+    background-color: #333;
+}
+
+html[data-bs-theme="dark"] .ce-popover__item-icon {
+    background-color: #333;
+}
+
+html[data-bs-theme="dark"] .cdx-search-field {
+    background-color: #444;
+}
+
+html[data-bs-theme="dark"] .cdx-search-field__input {
+    color: #eee;
+}
+
+html[data-bs-theme="dark"] .ce-popover__item:hover:not(.ce-popover__item--no-visible-hover) {
+    background-color: #444;
 }
 
 .img-overlay-edit {
