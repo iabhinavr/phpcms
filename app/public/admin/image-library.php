@@ -34,11 +34,13 @@ if( isset( $_FILES['editor-image']) ) {
     $data['type'] = $_FILES['editor-image']['type'];
     $data['size'] = $_FILES['editor-image']['size'];
     $data['error'] = $_FILES['editor-image']['error'];
+    $data['author'] = $access_obj->get_current_user()['username'];
 
     $add_image = $image_obj->add_image($data);
 
     $result = [
-        "success" => 0
+        "success" => 0,
+        "result" => $add_image
     ];
 
     if($add_image['status']) {

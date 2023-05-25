@@ -496,13 +496,22 @@ import ImageTool from '@editorjs/image';
         render() {
             let img = document.createElement('img');
             img.classList.add('w-100');
+
+            let title = document.createElement('input');
+            title.setAttribute('type', 'text');
+            title.classList.add('form-control', 'mt-2');
+            title.setAttribute('placeholder', 'Enter caption...');
+            title.value = this.data.caption ? this.data.caption : '';
+
             let btn = document.createElement('button');
-            btn.classList.add('btn', 'btn-primary', 'mt-2');
+            btn.classList.add('btn', 'btn-primary', 'my-2');
             btn.setAttribute('data-bs-toggle', 'modal');
             btn.setAttribute('data-bs-target', '#image-library-modal-fullscreen');
-            btn.innerHTML = 'Select Image';
+            btn.innerHTML = 'Choose Image';
 
-            img.src = this.data.file.url ? this.data.file.url : '';
+            console.log(this.data.file);
+
+            img.src = (this.data.file && this.data.file.url) ? this.data.file.url : '/admin/assets/images/default-image.jpg';
 
             btn.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -519,6 +528,7 @@ import ImageTool from '@editorjs/image';
 
             let wrapper = document.createElement('div');
             wrapper.appendChild(img);
+            wrapper.appendChild(title);
             wrapper.appendChild(btn);
 
             
@@ -527,12 +537,13 @@ import ImageTool from '@editorjs/image';
 
         save(blockContent) {
             const src = blockContent.querySelector('img').src;
+            const caption = blockContent.querySelector('input').value;
             return {
                 
                 file: {
                     url: src
                 },
-                caption: "",
+                caption: caption,
                 withBorder: false,
                 withBackground: false,
                 stretched: false,
