@@ -47,9 +47,15 @@ docker compose up -d
 The docker-compose.yml maps the ports 8084 (for localhost) and 33094 (for database). The localhost domain name used in the nginx.conf file is php-cms.local.
 
 So, you should be able to access the project from: http://php-cms.local:8084/
+
 To access the backend: http://php-cms.local:8084/admin/
 
-You may use the following credentials to login to the admin area:
+You may use either of the following credentials to login to the admin area:
 
+```
 Username: abhinavr
 Password: JzTKpr4ytt2Tjm
+
+Username: testuser
+Password: L9fGszFGYPRh6b
+```
