@@ -11,7 +11,7 @@ In order to setup the demo and start working with it on a local machine, you may
 - Composer
 - MySQL Client
 - Nodejs & NPM
-- Any Database manager of your choice - 
+- Any Database manager of your choice - DBeaver, PhpMyAdmin, etc.
 
 ## How to Setup the Demo
 
