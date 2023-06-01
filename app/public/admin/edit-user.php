@@ -18,29 +18,63 @@ $database = new Database();
 $access_obj = new Access($database);
 $user_obj = new User($database);
 
-if(isset($_POST['user-edit-submit'])) {
+if(isset($_POST['edit-user-submit'])) {
 
+    $data = [
+        'first_name' => $_POST['first_name'],
+        'id' => (int)$_POST['id'],
+    ];
+
+    $get_user = $user_obj->get_user_by_id($data['id']);
+
+    if($get_user['status']) {
+        $user = $get_user['result'];
+    }
+    else {
+        echo json_encode($get_user);
+        exit();
+    }
+
+    $authorization = $access_obj->is_authorized(($user['role'] === 'admin') ? 'admin_user' : 'user', 'update', (int)$_POST['id']);
+
+    if(!$authorization) {
+        echo json_encode(["status" => false, "result" => "Not enough permissions"]);
+        exit();
+    }
+
+    $update = $user_obj->update_user($data);
+
+    if($update['status']) {
+        header('Location:edit-user.php?id=' . (int)$_POST['id']);
+        exit();
+    }
+    else {
+        echo $update['result'];
+        exit();
+    }
     
 }
 
 if(isset($_POST['password-change-submit'])) {
+
     $data = [
         'id' => (int)$_POST['id'],
         'existing' => $_POST['existing'],
         'new' => $_POST['new'],
-        'retype' => $_POST['retype']
+        'retype' => $_POST['retype'],
     ];
 
-    $get_user_being_updated = $user_obj->get_user_by_id($data['id']);
+    $get_user = $user_obj->get_user_by_id($data['id']);
 
-    if(!$get_user_being_updated["status"]) {
-        echo json_encode($get_user_being_updated);
+    if($get_user['status']) {
+        $user = $get_user['result'];
+    }
+    else {
+        echo json_encode($get_user);
         exit();
     }
 
-    $role = $get_user_being_updated["result"]["role"];
-
-    if($role === 'admin') {
+    if($user['role'] === 'admin') {
         $resource_type = 'admin_user';
     }
     else {
@@ -99,7 +133,7 @@ $authorization = $access_obj->is_authorized(
             <h1 class="fs-2 pb-3 pt-3 border-bottom mb-3">Edit User</h1>
     
             <h2 class="fs-4 pb-2">Basic Details</h2>
-            <form action="" id="edit-user-form">
+            <form action="<?= htmlentities($_SERVER['PHP_SELF']) ?>" id="edit-user-form" method="post">
                 <div class="mb-3">
                     <label for="first_name" class="form-label">First Name</label>
                     <input type="text" name="first_name" id="first_name" value="<?= $user['first_name'] ?>" class="form-control">
@@ -107,12 +141,12 @@ $authorization = $access_obj->is_authorized(
     
                 <div class="mb-3">
                     <label for="username" class="form-label">User Name</label>
-                    <input type="text" name="username" id="username" value="<?= $user['username'] ?>" class="form-control">
+                    <input type="text" name="username" id="username" value="<?= $user['username'] ?>" class="form-control" disabled>
                 </div>
     
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" id="email" value="<?= $user['email'] ?>" class="form-control">
+                    <input type="email" name="email" id="email" value="<?= $user['email'] ?>" class="form-control" disabled>
                 </div>
     
                 <div class="mb-3">
@@ -120,8 +154,8 @@ $authorization = $access_obj->is_authorized(
                     <input type="text" name="role" id="role" value="<?= $user['role'] ?>" class="form-control" disabled>
                 </div>
     
-                <input type="hidden" name="user-id" value="<?= $user['id'] ?>">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <input type="hidden" name="id" value="<?= $user['id'] ?>">
+                <button type="submit" name="edit-user-submit" class="btn btn-primary">Save</button>
             </form>
 
             <h2 class="fs-4 pb-2 mt-4">Change Password</h2>

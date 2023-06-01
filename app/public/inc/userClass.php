@@ -182,8 +182,20 @@ class User {
         return ["status" => true, "result" => "password is strong enough"];
     }
 
-    public function update_user_details($id) {
+    public function update_user($data) {
+        try {
+            $stmt = $this->con->prepare("UPDATE users SET first_name = :first_name WHERE id = :id");
+            $stmt->bindParam(":id", $data['id'], PDO::PARAM_INT);
+            $stmt->bindParam(":first_name", $data['first_name'], PDO::PARAM_STR);
 
+            if($stmt->execute()) {
+                return ["status" => true, "result" => "User updated"];
+            }
+            return ["status" => false, "result" => "Error updating user"];
+        }
+        catch(PDOException $e) {
+            return ["status" => false, "result" => $e->getMessage()];
+        }
     }
 
 

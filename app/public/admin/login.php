@@ -49,11 +49,11 @@ get_template('header');
 <div class="min-vh-100 d-flex align-items-center justify-content-center flex-column bg-body-secondary">
 
     <?php if(isset($authenticated) && $authenticated === false ) : ?>
-        <div class=" bg-red-500 p-2 text-sm text-white rounded-sm mb-2">Incorrect Username or Password!</div>
+        <div class="alert alert-danger">Incorrect Username or Password!</div>
     <?php endif; ?>
 
-    <div class="d-flex justify-content-center align-items-center w-[320px] bg-slate-100 p-6">
-        <form action="" method="post" class="d-flex flex-column w-100">
+    <div class="d-flex justify-content-center align-items-center">
+        <form action="" method="post" class="d-flex flex-column">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" name="username" id="username" class="form-control">
