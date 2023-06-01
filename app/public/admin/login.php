@@ -4,8 +4,8 @@ session_start();
 
 include('inc/functions.php');
 
-require_once '../../inc/databaseClass.php';
-require_once '../../inc/userClass.php';
+require_once '../inc/databaseClass.php';
+require_once '../inc/userClass.php';
 
 $database = new Database();
 
@@ -18,6 +18,8 @@ if(isset($_POST['login'])) {
         $password = $_POST['password'];
 
         $authenticated = $user_obj->authenticate($username, $password);
+
+        generate_csrf_token();
 
         if($authenticated) {
 

@@ -44,6 +44,7 @@ import ImageTool from '@editorjs/image';
         const articleImage = editArticleForm.querySelector('input[name="article-image"]').value;
         const articleSlug = document.querySelector('input[name="article-slug"]').value;
         const articleExcerpt = document.querySelector('textarea[name="article-excerpt"]').value;
+        const csrfToken = document.querySelector('input[name="csrf-token"]').value;
         const articleContent = await editor.save();
 
         console.log(articleContent);
@@ -60,6 +61,7 @@ import ImageTool from '@editorjs/image';
         articleData.append('slug', articleSlug);
         articleData.append('excerpt', articleExcerpt);
         articleData.append('content', btoa(JSON.stringify(articleContent)));
+        articleData.append('csrf-token', csrfToken);
         articleData.append('article-edit-submit', "submitted");
     
         const result = await fetch('/admin/edit-article.php', {
@@ -75,6 +77,13 @@ import ImageTool from '@editorjs/image';
                 text: resJson.result,
                 icon: "success",
                 timer: 2000,
+            });
+        }
+        else {
+            swal({
+                title: "Error",
+                text: resJson.result,
+                icon: "error",
             });
         }
     

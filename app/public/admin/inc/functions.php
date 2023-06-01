@@ -13,3 +13,16 @@ function get_template($template_name) {
 function get_home_url() {
     return "http://php-cms.local:8084";
 }
+
+function generate_csrf_token() {
+    if(!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+}
+
+function validate_csrf_token($token) {
+    if(!isset($_SESSION['csrf_token']) || $token !== $_SESSION['csrf_token']) {
+        return ["status" => false, "result" => "Invalid token"];
+    }
+    return ["status" => true, "result" => "Token validated"];
+}

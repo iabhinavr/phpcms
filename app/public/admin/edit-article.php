@@ -9,11 +9,11 @@ if(empty($_SESSION['username'])) {
 
 include('inc/functions.php');
 
-require_once '../../inc/databaseClass.php';
-require_once '../../inc/articleClass.php';
-require_once '../../inc/imageClass.php';
-require_once '../../inc/settingsClass.php';
-require_once '../../inc/accessClass.php';
+require_once '../inc/databaseClass.php';
+require_once '../inc/articleClass.php';
+require_once '../inc/imageClass.php';
+require_once '../inc/settingsClass.php';
+require_once '../inc/accessClass.php';
 
 $database = new Database();
 
@@ -46,6 +46,13 @@ if(isset($_GET['id'])) {
 }
 
 if(isset($_POST['article-edit-submit'])) {
+
+    $validate_csrf_token = validate_csrf_token($_POST['csrf-token']);
+
+    if(!$validate_csrf_token['status']) {
+        echo json_encode($validate_csrf_token);
+        exit();
+    }
 
     $authorization = $access_obj->is_authorized('article', 'update', (int)$_POST['id']);
 
@@ -120,6 +127,7 @@ $authorization = $access_obj->is_authorized('article', 'update', (int)$_GET['id'
                 <input type="hidden" name="modified-date" value="<?= $article['modified'] ?>">
                 <input type="hidden" name="article-image" value="<?= $article['image'] ?>">
                 <input type="hidden" name="article-id" value="<?= $article['id'] ?>">
+                <input type="hidden" name="csrf-token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <div id="editorjs" class="px-4 my-2 py-3"><?php echo !empty($article['content']) ? base64_encode($article['content']) : base64_encode('{}') ?></div>
             </form>
     

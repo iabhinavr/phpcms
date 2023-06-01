@@ -9,10 +9,10 @@ if(empty($_SESSION['username'])) {
 
 include('inc/functions.php');
 
-require_once '../../inc/databaseClass.php';
-require_once '../../inc/settingsClass.php';
-require_once '../../inc/imageClass.php';
-require_once '../../inc/accessClass.php';
+require_once '../inc/databaseClass.php';
+require_once '../inc/settingsClass.php';
+require_once '../inc/imageClass.php';
+require_once '../inc/accessClass.php';
 
 $database = new Database();
 

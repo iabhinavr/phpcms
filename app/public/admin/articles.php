@@ -9,9 +9,9 @@ if(empty($_SESSION['username'])) {
 
 include('inc/functions.php');
 
-require_once '../../inc/databaseClass.php';
-require_once '../../inc/articleClass.php';
-require_once '../../inc/accessClass.php';
+require_once '../inc/databaseClass.php';
+require_once '../inc/articleClass.php';
+require_once '../inc/accessClass.php';
 
 $database = new Database();
 
@@ -32,6 +32,13 @@ if(isset($_POST['add-article'])) {
         'excerpt' => '',
         'author' => $access_obj->get_current_user()['username'],
     ];
+
+    $validate_csrf_token = validate_csrf_token($_POST['csrf-token']);
+
+    if(!$validate_csrf_token['status']) {
+        echo json_encode($validate_csrf_token);
+        exit();
+    }
 
     $add_article = $article_obj->add_article($data);
 
@@ -93,7 +100,7 @@ $authorization = $access_obj->is_authorized('article', 'read', NULL);
             <div class="col-auto">
                 <input type="submit" value="Add Article" name="add-article" class="btn btn-primary">
             </div>
-            
+            <input type="hidden" name="csrf-token" value="<?php echo $_SESSION['csrf_token']; ?>">
             
         </form>
 
