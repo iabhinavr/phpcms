@@ -80,17 +80,17 @@ $authorization = $access_obj->is_authorized('settings', 'read', NULL);
             <form action="" id="site-settings-form">
                 <div class="mb-3">
                     <label for="site-title" class="form-label">Site Title</label>
-                    <input type="text" name="site-title" id="site-title" class="form-control" value="<?= $current_settings['site_title'] ?>">
+                    <input type="text" name="site-title" id="site-title" class="form-control" value="<?= esc_html($current_settings['site_title']) ?>">
                 </div>
 
                 <div class="mb-3">
                     <label for="site-tagline" class="form-label">Site Tagline</label>
-                    <input type="text" name="site-tagline" id="site-tagline" class="form-control" value="<?= $current_settings['site_tagline'] ?>">
+                    <input type="text" name="site-tagline" id="site-tagline" class="form-control" value="<?= esc_html($current_settings['site_tagline']) ?>">
                 </div>
 
                 <div class="mb-3">
                     <label for="thumbnail-size" class="form-label">Thumbnail Size</label>
-                    <input type="number" name="thumbnail-size" id="thumbnail-size" class="form-control" value="<?= $current_settings['thumbnail_size'] ?>">
+                    <input type="number" name="thumbnail-size" id="thumbnail-size" class="form-control" value="<?= esc_html($current_settings['thumbnail_size']) ?>">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Save Changes</button>

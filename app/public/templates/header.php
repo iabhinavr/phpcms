@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $props['page_title'] ?></title>
-    <meta name="description" content="<?= $props['description'] ?>">
+    <title><?= esc_html($props['page_title']) ?></title>
+    <meta name="description" content="<?= esc_html($props['description']) ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/custom.css">
 </head>

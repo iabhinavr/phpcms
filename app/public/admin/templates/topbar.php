@@ -17,7 +17,7 @@
         </li>
         <li>
             <ul class="d-flex align-items-center list-unstyled">
-                <li class="me-2">Hello, <?= $_SESSION['first_name'] ?></li>
+                <li class="me-2">Hello, <?= esc_html($_SESSION['first_name']) ?></li>
                 <li class="me-2">
                     <a href="/" class="btn btn-sm btn-success">Visit Site</a>
                 </li>

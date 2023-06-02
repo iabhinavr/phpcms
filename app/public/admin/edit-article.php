@@ -40,7 +40,7 @@ if(isset($_GET['id'])) {
         }
     }
     else {
-        echo $get_article["result"];
+        echo json_encode($get_article);
         exit();
     }
 }
@@ -139,12 +139,12 @@ $authorization = $access_obj->is_authorized('article', 'update', (int)$_GET['id'
             </button>
             <h3 class="fs-5 border-b py-2 mb-2">Featured Image</h3>
             <div class="featured-image-selector border mb-2" data-bs-toggle="modal" data-bs-target="#image-library-modal-fullscreen">
-                <span class="" id="select-featured-image" style="background-image: <?php echo !empty($featured_image) ? 'url(../uploads/thumbnails/' . $featured_image['folder_path'] . '/' . $featured_image['file_name'] . ')' : 'none' ?>"></span>
+                <span class="" id="select-featured-image" style="background-image: <?php echo !empty($featured_image) ? 'url(../uploads/thumbnails/' . esc_html($featured_image['folder_path']) . '/' . esc_html($featured_image['file_name']) . ')' : 'none' ?>"></span>
             </div>
             <h3 class="fs-5 border-b py-2 mb-2">Slug</h3>
-            <input type="text" name="article-slug" id="article-slug" class="form-control" value="<?= $article['slug'] ?>">
+            <input type="text" name="article-slug" id="article-slug" class="form-control" value="<?= esc_html($article['slug']) ?>">
             <h3 class="fs-5 border-b py-2 mb-2">Excerpt</h3>
-            <textarea name="article-excerpt" id="article-excerpt" class="form-control" rows="5"><?= $article['excerpt'] ?></textarea>
+            <textarea name="article-excerpt" id="article-excerpt" class="form-control" rows="5"><?= esc_html($article['excerpt']) ?></textarea>
             <button class="btn btn-danger w-100 mt-2" id="delete-article-button" data-article-id="<?= $article['id'] ?>">
                 Delete Article
             </button>

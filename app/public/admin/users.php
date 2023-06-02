@@ -85,14 +85,14 @@ $authorization = $access_obj->is_authorized(
                         <tr class="[&>td]:border-b text-left [&>td]:p-2 hover:bg-slate-100 [&>td>a:hover]:underline [&>td>a]:text-sky-600">
                             <td>
                                 <a href="edit-user.php?id=<?= $user['id']; ?>">
-                                    <?= $user['first_name']; ?>
+                                    <?= esc_html($user['first_name']); ?>
                                 </a>
                             </td>
                             <td>
-                                <?= $user['username']; ?>
+                                <?= esc_html($user['username']); ?>
                             </td>
-                            <td><?= $user['email']; ?></td>
-                            <td><?= $user['role']; ?></td>
+                            <td><?= esc_html($user['email']); ?></td>
+                            <td><?= esc_html($user['role']); ?></td>
                         </tr>
     
                     <?php endforeach; ?>

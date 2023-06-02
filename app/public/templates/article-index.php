@@ -9,7 +9,7 @@
 <section class="blog-hero position-relative d-flex flex-column align-items-center justify-content-center">
     <div class="overlay"></div>
     <div class="container position-relative z-1 text-center text-white">
-        <h1 class="fs-1 text-white pb-8"><?= $props['page_title'] ?></h1>
+        <h1 class="fs-1 text-white pb-8"><?= esc_html($props['page_title']) ?></h1>
         <p>Read latest articles</p>
     </div>
 </section>
@@ -19,22 +19,22 @@
         <?php foreach ($props['articles'] as $article) : ?>
             <div class="col">
                 <article class="card h-100">
-                    <a href="/<?= $article['slug'] ?>" class="text-decoration-none">
-                        <img src="<?= $article['featured']['file_path'] ?>" alt="" class="card-img-top">
+                    <a href="/<?= esc_html($article['slug']) ?>" class="text-decoration-none">
+                        <img src="<?= esc_html($article['featured']['file_path']) ?>" alt="" class="card-img-top">
                     </a>
                     
     
                     <div class="card-body">
                         <p class="card-text">
-                            Published on <?= $article['published'] ?>
+                            Published on <?= esc_html($article['published']) ?>
                         </p>
                         <h2 class="card-title fs-5">
-                            <a href="/<?= $article['slug'] ?>" class="text-decoration-none">
-                                <?= $article['title'] ?>
+                            <a href="/<?= esc_html($article['slug']) ?>" class="text-decoration-none">
+                                <?= esc_html($article['title']) ?>
                             </a>
                         </h2>
                         <p class="card-text">
-                            <?= $article['excerpt'] ?>
+                            <?= esc_html($article['excerpt']) ?>
                         </p>
                     </div>
                 </article>

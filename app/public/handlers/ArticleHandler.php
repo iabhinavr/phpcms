@@ -9,11 +9,14 @@ class ArticleHandler extends MainHandler {
     public $databaseObj;
     public $editorParser;
 
+    public $purifier;
+
     public function __construct(
         Article $articleObj, 
         Database $databaseObj,
         Image $imageObj,
-        EditorParser $editorParser) {
+        EditorParser $editorParser,
+        HTMLPurifier $purifier) {
 
         $this->databaseObj = $databaseObj;
         $this->db_con = $this->databaseObj->db_connect();
@@ -21,7 +24,7 @@ class ArticleHandler extends MainHandler {
         $this->articleObj = $articleObj;
         $this->imageObj = $imageObj;
         $this->editorParser = $editorParser;
-
+        $this->purifier = $purifier;
     }
 
     public function main($method, $vars = null) {
@@ -144,11 +147,18 @@ class ArticleHandler extends MainHandler {
         }
 
         $props['article']['html'] = $this->editorParser->json2html($article['content']);
+
+        $props['article']['html'] = $this->strip_scripts($props['article']['html']);
         
         $this->render('header', $props);
 
         // var_dump($props);
         
         $this->render('article-single', $props);
+    }
+
+    public function strip_scripts($content) {
+        $content = $this->purifier->purify($content);
+        return $content;
     }
 }

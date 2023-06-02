@@ -72,7 +72,7 @@ if(isset($_GET['id'])) {
                     $current_image['file_name'];
     }
     else {
-        echo $get_image["result"];
+        echo json_encode($get_image);
         exit();
     }
 }
@@ -105,11 +105,11 @@ $authorization = $access_obj->is_authorized('image', 'update',(int)$_GET['id']);
     
             <h1 class="fs-2 pb-3 pt-3 border-bottom mb-3">
                 <?php
-                echo $current_image['title'] ? $current_image['title'] : $current_image['file_name'];
+                echo $current_image['title'] ? esc_html($current_image['title']) : esc_html($current_image['file_name']);
                 ?>
             </h1>
     
-            <img src="../uploads/fullsize/<?= $current_image['folder_path'] ?>/<?= $current_image['file_name'] ?>" alt="" class="w-100">
+            <img src="../uploads/fullsize/<?= esc_html($current_image['folder_path']) ?>/<?= esc_html($current_image['file_name']) ?>" alt="" class="w-100">
         </div>
     
         <div class="col-md-2 editor-sidebar sidebar min-vh-100 bg-body-secondary p-2 position-relative">
@@ -121,7 +121,7 @@ $authorization = $access_obj->is_authorized('image', 'update',(int)$_GET['id']);
                 <span style="background-image: url(<?= $thumbnail ?>)"></span>
             </div>
             <h3 class="fs-5 border-b py-2 mb-2">Image Title</h3>
-            <input type="text" name="image-title" id="image-title" class="form-control" value="<?= $current_image['title'] ?>">
+            <input type="text" name="image-title" id="image-title" class="form-control" value="<?= esc_html($current_image['title']) ?>">
             <input type="hidden" name="image-id" value="<?= $current_image['id'] ?>">
             <button class="btn btn-danger w-100 mt-2" id="delete-image-button" data-image-id="<?= $current_image['id'] ?>">
                 Delete Image

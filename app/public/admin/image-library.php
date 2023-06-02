@@ -151,7 +151,7 @@ $authorization = $access_obj->is_authorized('image', 'read', NULL);
 
         <h2 class="fs-4 mb-2">Upload Image</h2>
 
-        <form action="<?php echo htmlentities($_SERVER['PHP_SELF']) ?>" method="post" enctype="multipart/form-data" class="mb-4 row g-3 align-items-center">
+        <form action="<?= esc_html($_SERVER['PHP_SELF']) ?>" method="post" enctype="multipart/form-data" class="mb-4 row g-3 align-items-center">
             <div class="col-auto">
                 <input type="file" name="image" id="image" class="form-control">
             </div>
@@ -193,7 +193,7 @@ $authorization = $access_obj->is_authorized('image', 'read', NULL);
                         ?>
                         <li class="col">
                             <a class="img-lib-link d-block position-relative w-100" href="edit-image.php?id=<?= $image['id'] ?>">
-                                <img class="h-100 w-100 object-fit-cover object-center rounded-md" src="../uploads/thumbnails/<?= $year ?>/<?= $month ?>/<?= $image['file_name'] ?>" alt="">
+                                <img class="h-100 w-100 object-fit-cover object-center rounded-md" src="../uploads/thumbnails/<?= $year ?>/<?= $month ?>/<?= esc_html($image['file_name']) ?>" alt="">
                                 <div class="img-overlay-edit">
                                     <img src="assets/images/edit-icon.svg" alt="" class="">
                                 </div>

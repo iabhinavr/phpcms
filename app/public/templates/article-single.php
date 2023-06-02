@@ -11,15 +11,15 @@
     <?php if(!empty($props['article'])) : ?>
 
         <article class="post-content">
-            <section class="blog-hero position-relative d-flex flex-column align-items-center justify-content-center" style="background-image: url('<?= $props['article']['featured']['file_path'] ?>')">
+            <section class="blog-hero position-relative d-flex flex-column align-items-center justify-content-center" style="background-image: url('<?= esc_html($props['article']['featured']['file_path']) ?>')">
                 <div class="overlay"></div>
                 <div class="container position-relative z-1 text-left text-white">
-                    <h1 class="fs-1 pb-4"><?= $props['article']['title'] ?></h1>
+                    <h1 class="fs-1 pb-4"><?= esc_html($props['article']['title']) ?></h1>
                     <div class="pb-4">
-                            Posted by <?= $props['article']['author'] ?>, Last updated on <?= $props['article']['modified'] ?>
+                            Posted by <?= esc_html($props['article']['author']) ?>, Last updated on <?= esc_html($props['article']['modified']) ?>
                     </div>
                     <div class="fs-4 border-start border-4 border-warning ps-4">
-                        <?php echo($props['article']['excerpt']) ?>
+                        <?= esc_html($props['article']['excerpt']) ?>
                     </div>
                 </div>
                 

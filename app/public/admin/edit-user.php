@@ -133,25 +133,25 @@ $authorization = $access_obj->is_authorized(
             <h1 class="fs-2 pb-3 pt-3 border-bottom mb-3">Edit User</h1>
     
             <h2 class="fs-4 pb-2">Basic Details</h2>
-            <form action="<?= htmlentities($_SERVER['PHP_SELF']) ?>" id="edit-user-form" method="post">
+            <form action="<?= esc_html($_SERVER['PHP_SELF']) ?>" id="edit-user-form" method="post">
                 <div class="mb-3">
                     <label for="first_name" class="form-label">First Name</label>
-                    <input type="text" name="first_name" id="first_name" value="<?= $user['first_name'] ?>" class="form-control">
+                    <input type="text" name="first_name" id="first_name" value="<?= esc_html($user['first_name']) ?>" class="form-control">
                 </div>
     
                 <div class="mb-3">
                     <label for="username" class="form-label">User Name</label>
-                    <input type="text" name="username" id="username" value="<?= $user['username'] ?>" class="form-control" disabled>
+                    <input type="text" name="username" id="username" value="<?= esc_html($user['username']) ?>" class="form-control" disabled>
                 </div>
     
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" id="email" value="<?= $user['email'] ?>" class="form-control" disabled>
+                    <input type="email" name="email" id="email" value="<?= esc_html($user['email']) ?>" class="form-control" disabled>
                 </div>
     
                 <div class="mb-3">
                     <label for="role" class="form-label">Role</label>
-                    <input type="text" name="role" id="role" value="<?= $user['role'] ?>" class="form-control" disabled>
+                    <input type="text" name="role" id="role" value="<?= esc_html($user['role']) ?>" class="form-control" disabled>
                 </div>
     
                 <input type="hidden" name="id" value="<?= $user['id'] ?>">

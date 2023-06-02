@@ -93,7 +93,7 @@ $authorization = $access_obj->is_authorized('article', 'read', NULL);
 
         <h2 class="fs-4 mb-2">Add Article</h2>
 
-        <form action="<?php echo htmlentities($_SERVER['PHP_SELF']) ?>" method="post" class="mb-4 row g-3 align-items-center">
+        <form action="<?= esc_html($_SERVER['PHP_SELF']) ?>" method="post" class="mb-4 row g-3 align-items-center">
             <div class="col-auto">
                 <input type="text" name="article-title" id="article-title" class="form-control" placeholder="Title">
             </div>
