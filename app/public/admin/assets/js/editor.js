@@ -4,7 +4,7 @@ import List from "@editorjs/list";
 import JSON5 from 'json5';
 import ImageTool from '@editorjs/image';
 
-import { openImageLibraryModal } from "./image-library";
+import { openImageLibraryModal, resultElem, getResultElem, setResultElem } from "./image-library";
 import { editorElem } from "./elements";
 
 const getEditorData = async function (editorElem) {
@@ -63,7 +63,7 @@ class InsertImage {
             event.preventDefault();
             console.log('select image button clicked');
 
-            resultElem = img;
+            setResultElem(img)
 
             openImageLibraryModal('insert-post-image');
 

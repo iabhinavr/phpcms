@@ -11,6 +11,14 @@ import {
 
 let resultElem = null;
 
+const getResultElem = async function() {
+    return resultElem;
+}
+
+const setResultElem = async function(elem) {
+    resultElem = elem;
+}
+
 const openImageLibraryModal = async function (action) {
     console.log('open image library modal');
 
@@ -241,5 +249,7 @@ export {
     paginate,
     setSelectedImageButtonOnClick,
     closeImageLibraryOnClick,
-
+    resultElem,
+    getResultElem,
+    setResultElem,
 }
