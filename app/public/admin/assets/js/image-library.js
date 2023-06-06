@@ -114,7 +114,7 @@ const sidebarImageButtonOnClick = async function (event) {
 
     event.preventDefault();
 
-    resultElem = document.querySelector('input[name="article-image"]');
+    setResultElem(document.querySelector('input[name="article-image"]'));
 
     openImageLibraryModal('set-featured-image');
 
