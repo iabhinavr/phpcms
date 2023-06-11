@@ -48,7 +48,7 @@ The docker-compose.yml maps the ports 8084 (for localhost) and 33094 (for databa
 
 So, you should be able to access the project from: http://php-cms.local:8084/
 
-To access the backend: http://php-cms.local:8084/admin/
+To access the backend: http://php-cms.local:8084/admin/login.php
 
 You may use either of the following credentials to login to the admin area:
 
