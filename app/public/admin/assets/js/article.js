@@ -1,5 +1,5 @@
 import swal from "sweetalert";
-import { editArticleForm, editorElem } from "./elements";
+import { editArticleForm } from "./elements";
 import { editor } from "./editor";
 
 // Handle article save action
@@ -30,7 +30,7 @@ const saveArticle = async function (event) {
     articleData.append('image', articleImage);
     articleData.append('slug', articleSlug);
     articleData.append('excerpt', articleExcerpt);
-    articleData.append('content', btoa(JSON.stringify(articleContent)));
+    articleData.append('content', window.btoa(JSON.stringify(articleContent)));
     articleData.append('csrf-token', csrfToken);
     articleData.append('article-edit-submit', "submitted");
 

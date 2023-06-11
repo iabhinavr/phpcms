@@ -86,6 +86,72 @@ class User {
         return $count;
     }
 
+    public function add_user($data) {
+        // check if username or email already exists
+
+        $stmt = $this->con->prepare("SELECT count(*) FROM users WHERE username = :username");
+        $stmt->bindParam(":username", $data['username'], PDO::PARAM_STR);
+        $stmt->execute();
+
+        $count_username = $stmt->fetchColumn();
+
+        if($count_username > 0) {
+            return ["status" => false, "result" => "Username already exists"];
+        }
+
+        // check if email already exists
+
+        $stmt = $this->con->prepare("SELECT count(*) FROM users WHERE email = :email");
+        $stmt->bindParam(":email", $data['email'], PDO::PARAM_STR);
+        $stmt->execute();
+
+        $count_email = $stmt->fetchColumn();
+
+        if($count_email > 0) {
+            return ["status" => false, "result" => "Email already exists"];
+        }
+
+        $repassword = $this->verify_password_retype($data['password'], $data['repassword']);
+
+        if($repassword['status'] === false) {
+            return ["status" => false, "result" => "Retyped password does not match"];
+        }
+
+        switch($data['role']) {
+            case 1:
+                $role = 'admin';
+                break;
+            case 2:
+                $role = 'editor';
+                break;
+            default:
+                $role = 'editor';
+        }
+
+        $password_hash = password_hash($data['password'], PASSWORD_DEFAULT);
+
+        try {
+            $stmt = $this->con->prepare("INSERT INTO users (first_name, email, username, password, role) values (:first_name, :email, :username, :password, :role)");
+            $stmt->bindParam(":first_name", $data['first_name'], PDO::PARAM_STR);
+            $stmt->bindParam(":email", $data['email'], PDO::PARAM_STR);
+            $stmt->bindParam(":username", $data['username'], PDO::PARAM_STR);
+            $stmt->bindParam(":password", $password_hash, PDO::PARAM_STR);
+            $stmt->bindParam(":role", $role, PDO::PARAM_STR);
+
+            $add = $stmt->execute();
+
+            if($add) {
+                return ["status" => true, "result" => "New user added has been added successfully"];
+            }
+            return ["status" => false, "result" => "Error adding new user"];
+
+        }
+        catch(PDOException $e) {
+            return ["status" => false, "result" => $e->getMessage()];
+        }
+
+    }
+
     public function authenticate($username, $password) {
         $authenticated = false;
 

@@ -4,28 +4,10 @@ import List from "@editorjs/list";
 import JSON5 from 'json5';
 import ImageTool from '@editorjs/image';
 
-import { openImageLibraryModal, resultElem, getResultElem, setResultElem } from "./image-library";
+import { openImageLibraryModal, setResultElem } from "./image-library";
 import { editorElem } from "./elements";
 
-const getEditorData = async function (editorElem) {
-    let editorContent = editorElem.innerHTML;
-    console.log(editorContent);
-    editorElem.innerHTML = '';
 
-    let decodedEditorContent = '';
-    let parsedEditorContent = {};
-
-    try {
-        decodedEditorContent = atob(editorContent);
-        parsedEditorContent = JSON5.parse(decodedEditorContent);
-    }
-    catch(e) {
-        return {};
-    }
-
-    return parsedEditorContent;
-
-}
 
 class InsertImage {
     static get toolbox() {
@@ -101,6 +83,27 @@ class InsertImage {
 let editor = null;
 
 (async function(){
+
+    const getEditorData = async function (editorElem) {
+        let editorContent = editorElem.innerHTML;
+        console.log(editorContent);
+        editorElem.innerHTML = '';
+    
+        let decodedEditorContent = '';
+        let parsedEditorContent = {};
+    
+        try {
+            decodedEditorContent = window.atob(editorContent);
+            parsedEditorContent = JSON5.parse(decodedEditorContent);
+        }
+        catch(e) {
+            return {};
+        }
+    
+        return parsedEditorContent;
+    
+    }
+
     const getEditor = async function(editorElem) {
         let editorContent = await getEditorData(editorElem);
     
@@ -143,8 +146,11 @@ let editor = null;
         return editor;
     }
     
-    editor = await getEditor(editorElem);
+    if(editorElem) {
+        editor = await getEditor(editorElem);
+    }
+    
 })();
 
 
-export { getEditorData, InsertImage, editor };
+export { InsertImage, editor };

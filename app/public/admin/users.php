@@ -64,14 +64,19 @@ $authorization = $access_obj->is_authorized(
                 <?php get_template('footer'); ?>
                 <?php exit(); ?>
             <?php endif; ?>
-    
-            <h1 class="text-2xl pb-2 border-b mb-2">Users</h1>
-    
-    
+
+            <div class="d-flex justify-start align-items-center pb-2 border-b mb-2">
+                <h1 class="text-2xl">Users</h1>
+                <div class="ms-3">
+                    <a href="register.php" class="btn btn-primary btn-sm">Add New User</a>    
+                </div>
+                
+            </div>
+
             <table class="table table-striped">
     
                 <thead>
-                    <tr class="[&>th]:border-b text-left [&>th]:p-2">
+                    <tr>
                         <th>Name</th>
                         <th>Username</th>
                         <th>Email</th>
