@@ -264,5 +264,22 @@ class User {
         }
     }
 
+    public function delete_user($id) {
+        try {
+            $stmt = $this->con->prepare("DELETE FROM users WHERE id = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $result = $stmt->execute();
+
+            if($result) {
+                return ["status" => true, "result" => "User successfully deleted"];
+            }
+            return ["status" => false, "result" => "Error deleting user"];
+
+        }
+        catch(PDOException $e) {
+            return ["status" => false, "result" => $e->getMessage()];
+        }
+    }
+
 
 }

@@ -17,6 +17,7 @@ const html = document.getElementsByTagName('html')[0];
 const themeToggler = document.getElementById('theme-toggler');
 const svg = themeToggler.getElementsByTagName('svg')[0];
 const svgUse = themeToggler.getElementsByTagName('use')[0];
+const deleteUserForm = document.getElementById('delete-user-form');
 
 export {
     editorElem,
@@ -38,4 +39,5 @@ export {
     themeToggler,
     svg,
     svgUse,
+    deleteUserForm,
   };

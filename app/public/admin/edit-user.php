@@ -94,17 +94,47 @@ if(isset($_POST['password-change-submit'])) {
     
 }
 
+
+if(isset($_POST['user-delete'])) {
+    $id = (int)$_POST['id'];
+
+    $authorization = $access_obj->is_authorized('user', 'delete', $id);
+
+    $is_owner = $access_obj->is_owner('user', $id);
+
+    if($is_owner) {
+        echo json_encode(["status" => false, "result" => "Can't delete current user"]);
+        exit();
+    }
+
+    if(!$authorization) {
+        echo json_encode(["status" => false, "result" => "Not enough permissions"]);
+        exit();
+    }
+
+    $delete = $user_obj->delete_user($id);
+
+    echo json_encode($delete);
+    exit();
+}
+
 if(isset($_GET['id'])) {
     $id = (int)$_GET['id'];
     $get_user = $user_obj->get_user_by_id($id);
+    $is_owner = false;
 
     if($get_user["status"]) {
         $user = $get_user["result"];
+        $is_owner = $access_obj->is_owner('user', $id);
     }
     else {
         echo $get_user["result"];
         exit();
     }
+}
+else {
+    echo "Invalid Request";
+    exit();
 }
 
 get_template('header');
@@ -174,8 +204,18 @@ $authorization = $access_obj->is_authorized(
                     <input type="password" name="retype-password" id="retype-password" class="form-control">
                 </div>
                 <input type="hidden" name="user-id" value="<?= $user['id'] ?>">
-                <button type="submit" class="btn btn-danger">Change Password</button>
+                <button type="submit" class="btn btn-outline-danger">Change Password</button>
             </form>
+
+            <div class="my-3">
+                <form action="" id="delete-user-form">
+                    <input type="hidden" name="user-id" value="<?= $user['id'] ?>">
+                    <div title="<?= $is_owner ? 'Cannot delete current user' : 'Delete User' ?>">
+                    <button type="submit" id="delete-user" class="btn btn-danger <?= $is_owner ? 'disabled' : '' ?>">Delete User</button>
+                    </div>
+                    
+                </form>
+            </div>
     
         </div>
     

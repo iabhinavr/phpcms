@@ -45,6 +45,7 @@ if(isset($_POST['image-delete'])) {
 
     if(!$authorization) {
         echo json_encode(["msg" => "No access"]);
+        exit();
     }
 
     $id = (int)$_POST['id'];

@@ -4,7 +4,9 @@ import swal from "sweetalert";
     
 const deleteImage = async function (event) {
 
-    const confirm = await swal("Are you sure", {
+    event.preventDefault();
+
+    const confirm = await swal("Are you sure you want to delete this image?", {
         dangerMode: true,
         buttons: true,
         closeOnClickOutside: false,

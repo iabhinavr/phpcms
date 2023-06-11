@@ -11,7 +11,8 @@ import {
     setSelectedImageButton,
     changePasswordForm,
     siteSettingsForm,
-    themeToggler
+    themeToggler,
+    deleteUserForm
 } from "./elements";
 
 import { deleteImage, saveImage } from "./image";
@@ -20,6 +21,7 @@ import { sidebarImageButtonOnClick, paginate, setSelectedImageButtonOnClick, clo
 import { changePasswordFormOnSubmit } from "./user";
 import { siteSettingsFormOnSubmit } from "./settings";
 import { themeTogglerOnClick, initTheme } from "./darkmode";
+import { deleteUserFormOnSubmit } from "./user";
 
 (async function() {
 
@@ -65,6 +67,10 @@ import { themeTogglerOnClick, initTheme } from "./darkmode";
     
     if(siteSettingsForm) {
         siteSettingsForm.addEventListener('submit', siteSettingsFormOnSubmit);
+    }
+
+    if(deleteUserForm) {
+        deleteUserForm.addEventListener('submit', deleteUserFormOnSubmit);
     }
 
     await initTheme();
