@@ -1,6 +1,41 @@
 This is the code repository for a PHP project published as a series of video tutorials on YouTube. It can be thought of as a lightweight content management system, which includes the ability to upload images, manage articles, authenticate users, and manage site settings like on a blogging platform.
 
-The project environment is created using Docker. You can find the instructions below:
+## Important Features / Topics Covered
+
+For an end-user, the application may appear quite basic, as it's just a simple blogging system. But when looked from a developer's perspective, you can easily recognize that it covers a lot of different topics, ranging from dependecy injection to PHP Security, and from JavaScript modules to styling with Bootstrap.
+
+So, here are the top things that the project currently includes:
+
+- upload images, generate thumbnails
+- create articles (using EditorJS), edit, delete
+- pagination for image library and blog articles pages
+- multi-user with authentication and authorization (roles like admin & editor)
+- frontend with FastRoute - index and single post pages
+- dev. environment created with Docker (nginx, php-fpm, mariadb)
+- styling using Bootstrap and some custom CSS
+- Llght and dark modes for the admin interface
+- form handling using JavaScript
+- JavaScript code organized as modules, then bundled using Webpack
+- SQL injection taken care of with PHP PDO prepared statements
+- XSS taken care of with HTMLPurifier & htmlspecialchars
+- CSRF tokens added to forms
+- PHP Classes defined for the entities, like Image, Article, User, etc
+- PHP-DI to manage class dependencies
+- version control using Git
+
+### Plans for the future
+
+In addition to the above mentioned features, I also plan to include the following features to the project:
+
+- Commenting system for blog posts
+- Fine tuning the SEO features, with the ability to add custom title, meta description, schema markups, and XML sitemaps
+- Accessibility features
+- Automated testing using PHPUnit
+- Performance optimization, like lazy loading and page caching
+- Changeable templating system for the frontend
+
+
+The project environment is created using Docker. Below you can find the instructions on how to setup the demo:
 
 ## Prerequisites
 
