@@ -1,6 +1,6 @@
 This is the code repository for a PHP project published on YouTube.
 
-View the video here: [https://www.youtube.com/watch?v=-MlwoUL-9DE]
+View the video here: https://www.youtube.com/watch?v=-MlwoUL-9DE
 
 It can be thought of as a lightweight content management system, which includes the ability to upload images, manage articles, authenticate users, and manage site settings like on a blogging platform.
 
