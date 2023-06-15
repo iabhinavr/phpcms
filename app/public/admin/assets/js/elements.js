@@ -19,6 +19,16 @@ const svg = themeToggler.getElementsByTagName('svg')[0];
 const svgUse = themeToggler.getElementsByTagName('use')[0];
 const deleteUserForm = document.getElementById('delete-user-form');
 
+let resultElem = null;
+
+const getResultElem = async function() {
+    return resultElem;
+}
+
+const setResultElem = async function(elem) {
+    resultElem = elem;
+}
+
 export {
     editorElem,
     editArticleForm,
@@ -27,6 +37,9 @@ export {
     deleteImageButton,
     saveImageButton,
     sidebarImageButton,
+    resultElem,
+    getResultElem,
+    setResultElem,
     imageLibrary,
     imagesUl,
     setSelectedImageButton,

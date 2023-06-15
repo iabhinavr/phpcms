@@ -1,6 +1,7 @@
 import swal from "sweetalert";
-import { editArticleForm } from "./elements";
+import { editArticleForm, setResultElem } from "./elements";
 import { editor } from "./editor";
+import { openImageLibraryModal } from "./image-library";
 
 // Handle article save action
 
@@ -102,4 +103,14 @@ const deleteArticleButtonOnClick = async function (event) {
     }
 }
 
-export { saveArticle, deleteArticleButtonOnClick };
+const sidebarImageButtonOnClick = async function (event) {
+
+    event.preventDefault();
+
+    setResultElem(document.querySelector('input[name="article-image"]'));
+
+    openImageLibraryModal('set-featured-image');
+
+}
+
+export { saveArticle, deleteArticleButtonOnClick, sidebarImageButtonOnClick };

@@ -3,21 +3,12 @@
 import {
     setSelectedImageButton,
     sidebarImageButton,
+    getResultElem,
     imageLibrary, 
     imagesUl, 
     prevElem, 
     nextElem 
 } from "./elements";
-
-let resultElem = null;
-
-const getResultElem = async function() {
-    return resultElem;
-}
-
-const setResultElem = async function(elem) {
-    resultElem = elem;
-}
 
 const openImageLibraryModal = async function (action) {
     console.log('open image library modal');
@@ -108,16 +99,6 @@ const insertImages = async function (images) {
 
         imagesUl.appendChild(item);
     });
-}
-
-const sidebarImageButtonOnClick = async function (event) {
-
-    event.preventDefault();
-
-    setResultElem(document.querySelector('input[name="article-image"]'));
-
-    openImageLibraryModal('set-featured-image');
-
 }
 
 const calculatePagination = async function (per_page, page_no) {
@@ -213,13 +194,14 @@ const setSelectedImageButtonOnClick = async function (event) {
     const thumbnailSrc = event.currentTarget.getAttribute('data-thumbnail-src');
     const fullSrc = event.currentTarget.getAttribute('data-full-src');
 
+    const resultElem = getResultElem();
+
     console.log(resultElem);
 
     switch(buttonAction) {
         case 'set-featured-image' :
-            const inputField = document.querySelector('input[name="article-image"]');
-            inputField.value = imageId;
             if(thumbnailSrc && fullSrc) {
+                resultElem.value = imageId;
                 sidebarImageButton.style.backgroundImage = 'url(' + thumbnailSrc + ')';
             }
             break;
@@ -245,11 +227,7 @@ const closeImageLibraryOnClick = async function (event) {
 export { 
     openImageLibraryModal,
     imageOnClick,
-    sidebarImageButtonOnClick,
     paginate,
     setSelectedImageButtonOnClick,
     closeImageLibraryOnClick,
-    resultElem,
-    getResultElem,
-    setResultElem,
 }

@@ -4,10 +4,8 @@ import List from "@editorjs/list";
 import JSON5 from 'json5';
 import ImageTool from '@editorjs/image';
 
-import { openImageLibraryModal, setResultElem } from "./image-library";
-import { editorElem } from "./elements";
-
-
+import { openImageLibraryModal } from "./image-library";
+import { editorElem, setResultElem } from "./elements";
 
 class InsertImage {
     static get toolbox() {

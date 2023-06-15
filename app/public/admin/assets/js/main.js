@@ -16,8 +16,8 @@ import {
 } from "./elements";
 
 import { deleteImage, saveImage } from "./image";
-import { saveArticle, deleteArticleButtonOnClick } from "./article";
-import { sidebarImageButtonOnClick, paginate, setSelectedImageButtonOnClick, closeImageLibraryOnClick } from "./image-library";
+import { saveArticle, deleteArticleButtonOnClick, sidebarImageButtonOnClick } from "./article";
+import { paginate, setSelectedImageButtonOnClick, closeImageLibraryOnClick } from "./image-library";
 import { changePasswordFormOnSubmit } from "./user";
 import { siteSettingsFormOnSubmit } from "./settings";
 import { themeTogglerOnClick, initTheme } from "./darkmode";
