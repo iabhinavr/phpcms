@@ -25,6 +25,7 @@ if(isset($_POST['image-save'])) {
 
     if(!$authorization) {
         echo json_encode(["msg" => "No access"]);
+        exit();
     }
 
     $data = [
@@ -87,7 +88,7 @@ get_template('topbar');
 
 // Access Control
 
-$authorization = $access_obj->is_authorized('image', 'update',(int)$_GET['id']);
+$authorization = $access_obj->is_authorized('image', 'read',(int)$_GET['id']);
 
 ?>
 

@@ -28,7 +28,7 @@ class User {
                 return ["status" => true, "result" => $result];
             }
 
-            return ["status" => false, "result" => "Error fetching article"];
+            return ["status" => false, "result" => "Error fetching user"];
         }
         catch (PDOException $e) {
             return ["status" => false, "result" => $e->getMessage()];
@@ -47,7 +47,7 @@ class User {
                 return ["status" => true, "result" => $result];
             }
 
-            return ["status" => false, "result" => "Error fetching article"];
+            return ["status" => false, "result" => "Error fetching user"];
         }
         catch (PDOException $e) {
             return ["status" => false, "result" => $e->getMessage()];
