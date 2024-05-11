@@ -96,39 +96,42 @@ $authorization = $access_obj->is_authorized('image', 'read',(int)$_GET['id']);
     <div class="row position-relative">
     
         <?php get_template('sidebar'); ?>
-    
-        <div class="editor-middle flex-grow-1 col-md-8 position-relative px-2 editor-center max-vh-90 overflow-y-scroll bg-light-subtle">
-    
-            <?php if(empty($authorization)) : ?>
+
+        <?php if(empty($authorization)) : ?>
+            <div class="editor-middle flex-grow-1 col-md-8 position-relative px-2 editor-center max-vh-90 overflow-y-scroll bg-light-subtle">
                 <div class="alert alert-danger">You don't have enough permissions to access this resource</div>
-                <?php get_template('footer'); ?>
-                <?php exit(); ?>
-            <?php endif; ?>
-    
-            <h1 class="fs-2 pb-3 pt-3 border-bottom mb-3">
-                <?php
-                echo $current_image['title'] ? esc_html($current_image['title']) : esc_html($current_image['file_name']);
-                ?>
-            </h1>
-    
-            <img src="../uploads/fullsize/<?= esc_html($current_image['folder_path']) ?>/<?= esc_html($current_image['file_name']) ?>" alt="" class="w-100">
-        </div>
-    
-        <div class="col-md-2 editor-sidebar sidebar min-vh-100 bg-body-secondary p-2 position-relative">
-            <button class="px-2 py-2 mb-2 w-100 btn btn-success" id="save-image-button">
-                Save Image
-            </button>
-            <h3 class="fs-5 border-b py-2 mb-2">Thumbnail</h3>
-            <div class="border mb-2 sidebar-thumbnail">
-                <span style="background-image: url(<?= $thumbnail ?>)"></span>
             </div>
-            <h3 class="fs-5 border-b py-2 mb-2">Image Title</h3>
-            <input type="text" name="image-title" id="image-title" class="form-control" value="<?= esc_html($current_image['title']) ?>">
-            <input type="hidden" name="image-id" value="<?= $current_image['id'] ?>">
-            <button class="btn btn-danger w-100 mt-2" id="delete-image-button" data-image-id="<?= $current_image['id'] ?>">
-                Delete Image
-            </button>
-        </div>
+
+        <?php else : ?>
+
+            <div class="editor-middle flex-grow-1 col-md-8 position-relative px-2 editor-center max-vh-90 overflow-y-scroll bg-light-subtle">
+    
+                <h1 class="fs-2 pb-3 pt-3 border-bottom mb-3">
+                    <?php
+                    echo $current_image['title'] ? esc_html($current_image['title']) : esc_html($current_image['file_name']);
+                    ?>
+                </h1>
+        
+                <img src="../uploads/fullsize/<?= esc_html($current_image['folder_path']) ?>/<?= esc_html($current_image['file_name']) ?>" alt="" class="w-100">
+            
+            </div>
+    
+            <div class="col-md-2 editor-sidebar sidebar min-vh-100 bg-body-secondary p-2 position-relative">
+                <button class="px-2 py-2 mb-2 w-100 btn btn-success" id="save-image-button">
+                    Save Image
+                </button>
+                <h3 class="fs-5 border-b py-2 mb-2">Thumbnail</h3>
+                <div class="border mb-2 sidebar-thumbnail">
+                    <span style="background-image: url(<?= $thumbnail ?>)"></span>
+                </div>
+                <h3 class="fs-5 border-b py-2 mb-2">Image Title</h3>
+                <input type="text" name="image-title" id="image-title" class="form-control" value="<?= esc_html($current_image['title']) ?>">
+                <input type="hidden" name="image-id" value="<?= $current_image['id'] ?>">
+                <button class="btn btn-danger w-100 mt-2" id="delete-image-button" data-image-id="<?= $current_image['id'] ?>">
+                    Delete Image
+                </button>
+            </div>
+        <?php endif; ?> 
     
     </div>
 </div>

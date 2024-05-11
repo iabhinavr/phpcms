@@ -28,5 +28,8 @@ function validate_csrf_token($token) {
 }
 
 function esc_html($string) {
+    if(empty($string)) {
+        $string = '';
+    }
     return htmlspecialchars($string, ENT_QUOTES, "UTF-8");
 }

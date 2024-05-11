@@ -3,6 +3,7 @@ import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import JSON5 from 'json5';
 import ImageTool from '@editorjs/image';
+import CodeTool from '@editorjs/code';
 
 import { openImageLibraryModal } from "./image-library";
 import { editorElem, setResultElem } from "./elements";
@@ -134,7 +135,8 @@ let editor = null;
                 },
                 insertImage: {
                     class: InsertImage
-                }
+                },
+                code: CodeTool,
             },
     
             data: editorContent,
